@@ -2,347 +2,209 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>FinansTakip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ORION Finans Takip v3.5</title>
     <style>
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        :root{--bg:#0e0f13;--surface:#16181f;--surface2:#1e2029;--border:#2a2d38;--gold:#c9a84c;--green:#4caf85;--red:#e05c5c;--blue:#2ab8c4;--debt:#e05c5c;--mandatory:#e8874a;--other:#9b7fe8;--text:#e8e9ed;--muted:#6b7080;--accent:#3a7bd5}
-        html,body{height:100%}
-        body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-        header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:var(--surface)}
-        .logo{font-size:1.2rem;font-weight:700;color:var(--gold)}
-        .logo span{color:var(--text);font-weight:400}
-        .hbtns{display:flex;gap:6px;flex-wrap:wrap}
-        .period-bar{padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);border-bottom:1px solid var(--border)}
-        .plabel{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600}
-        select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:0.85rem;cursor:pointer;outline:none;-webkit-appearance:none}
-        .btn{font-size:0.78rem;font-weight:600;padding:7px 13px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
-        .btn-gold{background:var(--gold);color:#0e0f13}
-        .btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
-        .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-        .btn-sm{padding:5px 10px;font-size:0.72rem}
-        .btn-del{background:none;border:none;color:var(--red);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
-        .main-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto}
-        .main-tab{flex:1;min-width:70px;padding:12px 8px;font-size:0.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);text-align:center;white-space:nowrap;transition:color .2s}
-        .tab-income.on{color:var(--green);border-bottom-color:var(--green)}
-        .tab-expense.on{color:var(--red);border-bottom-color:var(--red)}
-        .tab-savings.on{color:var(--blue);border-bottom-color:var(--blue)}
-        .tab-overview.on{color:var(--gold);border-bottom-color:var(--gold)}
-        .content{padding:16px;max-width:700px;margin:0 auto}
-        .panel{display:none}
-        .panel.on{display:block}
-        .sum-row{display:grid;gap:10px;margin-bottom:16px}
-        .sum2{grid-template-columns:1fr 1fr}
-        .sum3{grid-template-columns:1fr 1fr 1fr}
-        .sc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden}
-        .sc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
-        .sc-inc::before{background:var(--green)}
-        .sc-exp::before{background:var(--red)}
-        .sc-sav::before{background:var(--blue)}
-        .sc-bal::before{background:var(--gold)}
-        .sc-rate::before{background:var(--accent)}
-        .sc-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);font-weight:600;margin-bottom:6px}
-        .sc-val{font-size:1.3rem;font-weight:700;line-height:1}
-        .sc-inc .sc-val{color:var(--green)}
-        .sc-exp .sc-val{color:var(--red)}
-        .sc-sav .sc-val{color:var(--blue)}
-        .sc-bal .sc-val{color:var(--gold)}
-        .sc-rate .sc-val{color:var(--accent)}
-        .sec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;overflow:hidden}
-        .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
-        .sh-income{background:rgba(76,175,133,0.07)}
-        .sh-debt{background:rgba(224,92,92,0.07)}
-        .sh-mandatory{background:rgba(232,135,74,0.07)}
-        .sh-other{background:rgba(155,127,232,0.07)}
-        .sh-savings{background:rgba(42,184,196,0.07)}
-        .sec-title{font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:7px}
-        .sh-income .sec-title{color:var(--green)}
-        .sh-debt .sec-title{color:var(--debt)}
-        .sh-mandatory .sec-title{color:var(--mandatory)}
-        .sh-other .sec-title{color:var(--other)}
-        .sh-savings .sec-title{color:var(--blue)}
-        .badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:20px}
-        .bi{background:rgba(76,175,133,0.18);color:var(--green)}
-        .bd{background:rgba(224,92,92,0.18);color:var(--debt)}
-        .bm{background:rgba(232,135,74,0.18);color:var(--mandatory)}
-        .bo{background:rgba(155,127,232,0.18);color:var(--other)}
-        .bs{background:rgba(42,184,196,0.18);color:var(--blue)}
-        .sec-right{display:flex;align-items:center;gap:8px}
-        .sec-tot{font-size:1rem;font-weight:700}
-        .sh-income .sec-tot{color:var(--green)}
-        .sh-debt .sec-tot{color:var(--debt)}
-        .sh-mandatory .sec-tot{color:var(--mandatory)}
-        .sh-other .sec-tot{color:var(--other)}
-        .sh-savings .sec-tot{color:var(--blue)}
-        .pbar{height:4px;background:var(--surface2)}
-        .pbar-f{height:100%;transition:width .5s}
-        .pf-d{background:var(--debt)}
-        .pf-m{background:var(--mandatory)}
-        .pf-o{background:var(--other)}
-        .cat-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;border-bottom:1px solid rgba(42,45,56,0.4)}
-        .cat-name{font-size:0.8rem;font-weight:600}
-        .cat-right{display:flex;align-items:center;gap:6px}
-        .cat-amt{font-size:0.82rem;font-weight:700}
-        .ca-g{color:var(--green)}
-        .ca-r{color:var(--red)}
-        .ca-b{color:var(--blue)}
-        .entry-row{display:flex;align-items:center;padding:9px 16px 9px 28px;border-bottom:1px solid rgba(42,45,56,0.3);gap:8px}
-        .entry-name{flex:1;font-size:0.78rem;color:var(--muted)}
-        .entry-amt{font-size:0.82rem;font-weight:600}
-        .ea-g{color:var(--green)}
-        .ea-r{color:var(--red)}
-        .ea-b{color:var(--blue)}
-        .empty-msg{padding:16px;text-align:center;color:var(--muted);font-size:0.78rem;font-style:italic}
-        .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
-        .chart-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:14px}
-        .chart-inner{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap}
-        #myChart{flex-shrink:0}
-        .legend{display:flex;flex-direction:column;gap:9px;flex:1;min-width:150px}
-        .leg-item{display:flex;align-items:center;gap:8px;font-size:0.78rem}
-        .leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
-        .leg-lbl{flex:1}
-        .leg-pct{color:var(--muted);font-size:0.7rem;min-width:32px;text-align:right}
-        .leg-val{font-weight:700;min-width:75px;text-align:right;font-size:0.8rem}
-        .mt-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
-        .mt-head{font-size:0.9rem;font-weight:700;color:var(--gold);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-        .mt-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(42,45,56,0.4);font-size:0.82rem}
-        .mt-row:last-child{border-bottom:none}
-        .mt-lbl{color:var(--muted)}
-        .mt-val{font-weight:700;font-size:0.88rem}
-        .mt-section{color:var(--text);font-weight:700;font-size:0.72rem;padding-top:10px;border-bottom:none}
-        .carryover{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
-        .carry-lbl{font-size:0.6rem;text-transform:uppercase;color:var(--muted);font-weight:600}
-        .carry-val{font-size:1.15rem;font-weight:700}
-        .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:1000;align-items:flex-end;justify-content:center}
-        .overlay.on{display:flex}
-        .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto}
-        input[type=text],input[type=number],select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:8px;font-size:0.9rem;outline:none;width:100%}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;font-size:0.82rem;font-weight:600;z-index:9999;transition:transform .3s;pointer-events:none}
-        .toast.on{transform:translateX(-50%) translateY(0)}
-        #loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
-        .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite}
-        @keyframes sp{to{transform:rotate(360deg)}}
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --bg: #050810;
+            --surface: #0F1423;
+            --border: #1E263F;
+            --orion-blue: #3A86FF;
+            --green: #06D6A0;
+            --red: #EF476F;
+            --text-primary: #F8F9FA;
+            --text-secondary: #8E9AAF;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 20px; padding-bottom: 100px; }
+
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 20px; }
+        .card-title { font-size: 0.8rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Form Elemanları */
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px; font-weight: 600; }
+        select, input { 
+            width: 100%; background: var(--bg); border: 1px solid var(--border); 
+            color: var(--text-primary); padding: 10px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+        }
+
+        button.btn-add { 
+            width: 100%; background: var(--orion-blue); color: white; border: none; 
+            padding: 12px; border-radius: 8px; font-weight: 700; margin-top: 10px; cursor: pointer;
+        }
+
+        /* Liste Elemanları ve Düzenleme Butonları */
+        .record-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 0; border-bottom: 1px solid var(--border); 
+        }
+        .record-info { display: flex; flex-direction: column; }
+        .record-cat { font-size: 0.85rem; font-weight: 700; }
+        .record-desc { font-size: 0.7rem; color: var(--text-secondary); }
+        
+        .record-actions { display: flex; align-items: center; gap: 8px; }
+        .amount { font-family: 'Roboto Mono', monospace; font-weight: 700; margin-right: 10px; }
+        
+        .btn-edit { color: var(--orion-blue); background: none; border: none; font-size: 1.1rem; cursor: pointer; }
+        .btn-delete { color: var(--red); background: none; border: none; font-size: 1.1rem; cursor: pointer; }
+
+        /* Özet Tablosu */
+        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.9rem; }
+        .summary-total { border-top: 2px solid var(--border); margin-top: 10px; padding-top: 10px; font-weight: 800; }
+        .devreden { color: var(--green); }
+        .gider-text { color: var(--red); }
     </style>
 </head>
 <body>
-    <div id="loading"><div class="spin"></div><div style="color:var(--muted);font-size:0.82rem">Yukleniyor...</div></div>
+
+<div class="card">
+    <div class="logo" style="font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; text-align: center;">ORION <span>FINANS</span></div>
     
-    <header>
-        <div class="logo">Finans<span>Takip</span></div>
-        <div class="hbtns">
-            <button class="btn btn-ghost btn-sm" onclick="exportData()">Yedek</button>
-            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('impFile').click()">Yukle</button>
-            <input type="file" id="impFile" accept=".json" style="display:none" onchange="importData(event)">
-            <button class="btn btn-gold btn-sm" onclick="openAdd()">+ Ekle</button>
-        </div>
-    </header>
-
-    <div class="period-bar">
-        <span class="plabel">Donem</span>
-        <select id="selM" onchange="render()"><option value="1">Ocak</option><option value="2">Subat</option><option value="3">Mart</option><option value="4">Nisan</option><option value="5">Mayis</option><option value="6">Haziran</option><option value="7">Temmuz</option><option value="8">Agustos</option><option value="9">Eylul</option><option value="10">Ekim</option><option value="11">Kasim</option><option value="12">Aralik</option></select>
-        <select id="selY" onchange="render()"></select>
+    <div class="form-group">
+        <label>İşlem Tipi</label>
+        <select id="mainCat" onchange="updateSubCats()">
+            <option value="Gelir">Gelir</option>
+            <option value="Borç">Borç</option>
+            <option value="Zorunlu">Zorunlu Harcama</option>
+            <option value="Diğer">Diğer Harcamalar</option>
+            <option value="Birikim">Birikim</option>
+        </select>
     </div>
 
-    <div class="main-tabs">
-        <div class="main-tab tab-income on" id="tab-income" onclick="goTab('income')">Gelir</div>
-        <div class="main-tab tab-expense" id="tab-expense" onclick="goTab('expense')">Gider</div>
-        <div class="main-tab tab-savings" id="tab-savings" onclick="goTab('savings')">Birikim</div>
-        <div class="main-tab tab-overview" id="tab-overview" onclick="goTab('overview')">Ozet</div>
+    <div class="form-group">
+        <label>Alt Başlık</label>
+        <select id="subCat"></select>
     </div>
 
-    <div class="content">
-        <div class="panel on" id="panel-income">
-            <div class="sum-row sum2"><div class="sc sc-inc"><div class="sc-lbl">Toplam Gelir</div><div class="sc-val" id="si-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net Bakiye</div><div class="sc-val" id="si-bal">0</div></div></div>
-            <div class="sec-card"><div class="sec-hdr sh-income"><div class="sec-title">Gelirler</div><div class="sec-right"><span class="sec-tot" id="inc-tot">0</span></div></div><div id="list-income"></div></div>
-        </div>
+    <div class="form-group">
+        <label>Tutar (TL)</label>
+        <input type="number" id="amount" placeholder="0.00">
+    </div>
 
-        <div class="panel" id="panel-expense">
-            <div class="sum-row sum3"><div class="sc sc-exp"><div class="sc-lbl">Gider</div><div class="sc-val" id="se-exp">0</div></div><div class="sc sc-inc"><div class="sc-lbl">Gelir</div><div class="sc-val" id="se-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net</div><div class="sc-val" id="se-net">0</div></div></div>
-            <div class="sec-card"><div class="sec-hdr sh-debt"><div class="sec-title">Borc</div><div class="sec-right"><span class="sec-tot" id="tot-debt">0</span></div></div><div id="list-debt"></div></div>
-            <div class="sec-card"><div class="sec-hdr sh-mandatory"><div class="sec-title">Zorunlu</div><div class="sec-right"><span class="sec-tot" id="tot-mand">0</span></div></div><div id="list-mand"></div></div>
-            <div class="sec-card"><div class="sec-hdr sh-other"><div class="sec-title">Diger</div><div class="sec-right"><span class="sec-tot" id="tot-other">0</span></div></div><div id="list-other"></div></div>
-        </div>
+    <div class="form-group">
+        <label>Açıklama (Opsiyonel)</label>
+        <input type="text" id="description" placeholder="Not ekleyin...">
+    </div>
 
-        <div class="panel" id="panel-savings">
-            <div class="sum-row sum2"><div class="sc sc-sav"><div class="sc-lbl">Birikim</div><div class="sc-val" id="ss-sav">0</div></div><div class="sc sc-rate"><div class="sc-lbl">Oran</div><div class="sc-val" id="ss-rate">%0</div></div></div>
-            <div class="sec-card"><div id="list-savings"></div></div>
-        </div>
+    <button class="btn-add" onclick="addRecord()">KAYDET</button>
+</div>
 
-        <div class="panel" id="panel-overview">
-            <div class="chart-card">
-                <div class="chart-title">Aylik Dagilim</div>
-                <div class="chart-inner">
-                    <canvas id="myChart" width="160" height="160"></canvas>
-                    <div class="legend" id="chartLegend"></div>
+<div class="card">
+    <div class="card-title">Özet Raporu</div>
+    <div id="summaryContent"></div>
+</div>
+
+<div class="card">
+    <div class="card-title">İşlem Kayıtları</div>
+    <div id="recordList"></div>
+</div>
+
+<script>
+    let records = JSON.parse(localStorage.getItem('orion_finance_data') || '[]');
+    let editIndex = -1;
+
+    const subCategories = {
+        'Gelir': ['Maaş', 'Ek Gelir', 'Kira Geliri', 'Diğer'],
+        'Borç': ['Kredi', 'Şahıs Borcu', 'Banka Faizi', 'Diğer'],
+        'Zorunlu': ['Kira', 'Aidat', 'Elektrik Faturası', 'Doğalgaz Faturası', 'Su Faturası', 'Telefon faturası', 'İnternet Faturası', 'Eğitim Harcamaları', 'Dijital Platform Üyelikleri', 'Akaryakıt', 'Araç Bakımı', 'Araç Muayenesi', 'MTV', 'Diğer'],
+        'Diğer': ['Market', 'Manav', 'Kuruyemiş', 'Ulaşım', 'Giyim', 'Çocuk Giyim', 'Kişisel Bakım', 'Elektronik Alışveriş', 'Usta', 'Yapı Dekorasyon', 'Diğer'],
+        'Birikim': ['Altın', 'Döviz', 'Borsa', 'BES', 'Diğer']
+    };
+
+    function updateSubCats() {
+        const main = document.getElementById('mainCat').value;
+        const sub = document.getElementById('subCat');
+        sub.innerHTML = subCategories[main].map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+
+    function addRecord() {
+        const amt = document.getElementById('amount').value;
+        if(!amt) return alert("Lütfen tutar giriniz.");
+
+        const record = {
+            main: document.getElementById('mainCat').value,
+            sub: document.getElementById('subCat').value,
+            amount: parseFloat(amt),
+            desc: document.getElementById('description').value || ""
+        };
+
+        if(editIndex > -1) {
+            records[editIndex] = record;
+            editIndex = -1;
+        } else {
+            records.push(record);
+        }
+
+        saveAndRender();
+        document.getElementById('amount').value = '';
+        document.getElementById('description').value = '';
+    }
+
+    function deleteRecord(index) {
+        records.splice(index, 1);
+        saveAndRender();
+    }
+
+    function editRecord(index) {
+        const r = records[index];
+        document.getElementById('mainCat').value = r.main;
+        updateSubCats();
+        document.getElementById('subCat').value = r.sub;
+        document.getElementById('amount').value = r.amount;
+        document.getElementById('description').value = r.desc;
+        editIndex = index;
+        window.scrollTo(0,0);
+    }
+
+    function saveAndRender() {
+        localStorage.setItem('orion_finance_data', JSON.stringify(records));
+        renderRecords();
+        renderSummary();
+    }
+
+    function renderRecords() {
+        const list = document.getElementById('recordList');
+        list.innerHTML = records.map((r, i) => `
+            <div class="record-item">
+                <div class="record-info">
+                    <span class="record-cat">${r.main} - ${r.sub}</span>
+                    <span class="record-desc">${r.desc}</span>
+                </div>
+                <div class="record-actions">
+                    <span class="amount" style="color: ${r.main === 'Gelir' ? 'var(--green)' : 'var(--red)'}">
+                        ${r.main === 'Gelir' ? '+' : '-'}₺${r.amount.toLocaleString('tr-TR')}
+                    </span>
+                    <button class="btn-edit" onclick="editRecord(${i})">✎</button>
+                    <button class="btn-delete" onclick="deleteRecord(${i})">✕</button>
                 </div>
             </div>
-            <div id="ov-totals"></div>
-        </div>
-    </div>
+        `).reverse().join('');
+    }
 
-    <div class="overlay" id="addModal">
-        <div class="modal">
-            <h3 style="margin-bottom:15px">Yeni Ekle</h3>
-            <select id="mType" onchange="updCats()"><option value="income">Gelir</option><option value="debt">Borc</option><option value="mandatory">Zorunlu</option><option value="other">Diger</option><option value="savings">Birikim</option></select>
-            <br><br>
-            <select id="catSel"></select>
-            <br><br>
-            <input type="text" id="eName" placeholder="Aciklama">
-            <br><br>
-            <input type="number" id="eAmt" placeholder="Tutar" inputmode="decimal">
-            <br><br>
-            <button class="btn btn-gold" style="width:100%; justify-content:center" onclick="saveEntry()">Kaydet</button>
-            <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:10px" onclick="closeAdd()">Kapat</button>
-        </div>
-    </div>
+    function renderSummary() {
+        let totals = { Gelir: 0, Borç: 0, Zorunlu: 0, Diğer: 0, Birikim: 0 };
+        records.forEach(r => totals[r.main] += r.amount);
 
-    <div class="toast" id="toast"></div>
+        const toplamGider = totals.Borç + totals.Zorunlu + totals.Diğer + totals.Birikim;
+        const kalan = totals.Gelir - toplamGider;
 
-    <script>
-        var DB_NAME="FT_DB", DB_VER=1, ST_NAME="data";
-        var db, DATA={}, CATS={income:["Maas","Ek Gelir","Diger"],debt:["Kredi","Kredi Karti","Diger"],mandatory:["Kira","Fatura","Market"],other:["Eglence","Ulasim","Diger"],savings:["Altin","Doviz","Borsa"]};
-        var $=function(id){return document.getElementById(id)};
+        document.getElementById('summaryContent').innerHTML = `
+            <div class="summary-row"><span>Toplam Gelir:</span><span class="devreden">₺${totals.Gelir.toLocaleString('tr-TR')}</span></div>
+            <div class="summary-row"><span>Toplam Gider:</span><span class="gider-text">₺${toplamGider.toLocaleString('tr-TR')}</span></div>
+            <div class="summary-row summary-total">
+                <span>Sonraki Aya Devreden:</span>
+                <span class="devreden">₺${kalan.toLocaleString('tr-TR')}</span>
+            </div>
+        `;
+    }
 
-        function openDB(cb) {
-            var req = indexedDB.open(DB_NAME, DB_VER);
-            req.onupgradeneeded = function(e){ e.target.result.createObjectStore(ST_NAME,{keyPath:"id"}); };
-            req.onsuccess = function(e){ db = e.target.result; loadData(cb); };
-            req.onerror = function(){ alert("DB Hatasi!"); cb(); };
-        }
+    updateSubCats();
+    saveAndRender();
+</script>
 
-        function loadData(cb) {
-            var tx = db.transaction(ST_NAME,"readonly").objectStore(ST_NAME).get("main");
-            tx.onsuccess = function(){ if(tx.result) DATA = tx.result.val; cb(); };
-            tx.onerror = function(){ cb(); };
-        }
-
-        function saveData() {
-            db.transaction(ST_NAME,"readwrite").objectStore(ST_NAME).put({id:"main", val:DATA});
-        }
-
-        function init() {
-            var now = new Date();
-            var yy = $("selY");
-            for(var i=now.getFullYear()-2; i<=now.getFullYear()+2; i++) {
-                var o = document.createElement("option"); o.value=i; o.text=i; if(i==now.getFullYear()) o.selected=true; yy.appendChild(o);
-            }
-            $("selM").value = now.getMonth()+1;
-            openDB(function(){
-                $("loading").style.display="none";
-                render();
-            });
-            // Zorunlu kapatma (Her ihtimale karsi 3 saniye sonra yukleme ekranini kaldir)
-            setTimeout(function(){ $("loading").style.display="none"; }, 3000);
-        }
-
-        function render() {
-            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
-            if(!DATA[k]) DATA[k] = {income:[], debt:[], mandatory:[], other:[], savings:[]};
-            var d = DATA[k];
-
-            var sInc = d.income.reduce((a,b)=>a+b.amt,0);
-            var sDebt = d.debt.reduce((a,b)=>a+b.amt,0);
-            var sMand = d.mandatory.reduce((a,b)=>a+b.amt,0);
-            var sOth = d.other.reduce((a,b)=>a+b.amt,0);
-            var sSav = d.savings.reduce((a,b)=>a+b.amt,0);
-            var sExp = sDebt+sMand+sOth;
-
-            $("si-inc").innerText = sInc.toLocaleString();
-            $("si-bal").innerText = (sInc - sExp - sSav).toLocaleString();
-            $("inc-tot").innerText = sInc.toLocaleString();
-            $("se-inc").innerText = sInc.toLocaleString();
-            $("se-exp").innerText = sExp.toLocaleString();
-            $("se-net").innerText = (sInc - sExp).toLocaleString();
-            $("tot-debt").innerText = sDebt.toLocaleString();
-            $("tot-mand").innerText = sMand.toLocaleString();
-            $("tot-other").innerText = sOth.toLocaleString();
-            $("ss-sav").innerText = sSav.toLocaleString();
-            $("ss-rate").innerText = "%" + (sInc>0 ? ((sInc-sExp)/sInc*100).toFixed(1) : 0);
-
-            list("list-income", d.income, "income");
-            list("list-debt", d.debt, "debt");
-            list("list-mand", d.mandatory, "mandatory");
-            list("list-other", d.other, "other");
-            list("list-savings", d.savings, "savings");
-            draw(sInc, sDebt, sMand, sOth, sSav);
-        }
-
-        function list(id, arr, type) {
-            var h = arr.map((item, idx) => `
-                <div class="entry-row">
-                    <span class="entry-name"><b>${item.cat}</b>: ${item.name}</span>
-                    <span class="entry-amt">${item.amt.toLocaleString()}</span>
-                    <button class="btn-del" onclick="del('${type}',${idx})">X</button>
-                </div>
-            `).join("");
-            $(id).innerHTML = h || '<div class="empty-msg">Kayit yok</div>';
-        }
-
-        function del(type, idx) {
-            if(!confirm("Silinsin mi?")) return;
-            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
-            DATA[k][type].splice(idx,1);
-            saveData(); render();
-        }
-
-        function openAdd() { updCats(); $("addModal").classList.add("on"); }
-        function closeAdd() { $("addModal").classList.remove("on"); }
-
-        function updCats() {
-            var t = $("mType").value;
-            $("catSel").innerHTML = CATS[t].map(c => `<option value="${c}">${c}</option>`).join("");
-        }
-
-        function saveEntry() {
-            var name = $("eName").value || "Adsiz";
-            var amt = parseFloat($("eAmt").value) || 0;
-            var cat = $("catSel").value;
-            var type = $("mType").value;
-            if(amt <= 0) return alert("Tutar girin");
-            
-            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
-            DATA[k][type].push({name:name, amt:amt, cat:cat});
-            saveData(); render(); closeAdd();
-            $("eName").value=""; $("eAmt").value="";
-        }
-
-        function goTab(t) {
-            document.querySelectorAll(".main-tab").forEach(el => el.classList.remove("on"));
-            document.querySelectorAll(".panel").forEach(el => el.classList.remove("on"));
-            $("tab-"+t).classList.add("on");
-            $("panel-"+t).classList.add("on");
-        }
-
-        function draw(inc, d, m, o, s) {
-            var cvs=$("myChart"), ctx=cvs.getContext("2d");
-            ctx.clearRect(0,0,160,160);
-            var vals=[inc,d,m,o,s], colors=["#4caf85","#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Gelir","Borc","Zorunlu","Diger","Birikim"];
-            var total = vals.reduce((a,b)=>a+b,0);
-            if(total==0) return;
-            var start = -Math.PI/2;
-            $("chartLegend").innerHTML = "";
-            vals.forEach((v,i) => {
-                if(v<=0) return;
-                var slice = (v/total)*2*Math.PI;
-                ctx.fillStyle = colors[i];
-                ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,start,start+slice); ctx.fill();
-                start += slice;
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString()}</span></div>`;
-            });
-        }
-
-        function exportData() {
-            var blob = new Blob([JSON.stringify(DATA)], {type:"application/json"});
-            var a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="finans_yedek.json"; a.click();
-        }
-
-        function importData(e) {
-            var fr = new FileReader();
-            fr.onload = function(){ DATA = JSON.parse(fr.result); saveData(); render(); alert("Yuklendi"); };
-            fr.readAsText(e.target.files[0]);
-        }
-
-        window.onload = init;
-    </script>
 </body>
 </html>
