@@ -344,7 +344,14 @@
                 return;
             }
             var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
-            ctx.fillStyle = "var(--green)"; ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,0,Math.PI*2); ctx.fill();
+            
+            // Burası Değişti: Önce pastanın tamamını yeşil (kalan nakit) olarak çiziyoruz.
+            ctx.fillStyle = "var(--green)"; 
+            ctx.beginPath(); 
+            ctx.moveTo(80,80); 
+            ctx.arc(80,80,75,0,Math.PI*2); 
+            ctx.fill();
+
             var start = -Math.PI/2;
             $("chartLegend").innerHTML = "";
             vals.forEach((v,i) => {
