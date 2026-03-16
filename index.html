@@ -131,10 +131,13 @@
 
         <div class="panel" id="panel-overview">
             <div class="chart-card">
-                <div class="chart-title">Aylik Dagilim (Gelire Oranla)</div>
+                <div class="chart-title">Gelir Dağılım Analizi</div>
                 <div class="chart-inner">
                     <canvas id="myChart" width="160" height="160"></canvas>
                     <div class="legend" id="chartLegend"></div>
+                </div>
+                <div style="font-size:0.65rem; color:var(--muted); margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
+                    * Pasta grafiğinin tamamı toplam geliri temsil eder. Boş kalan alan devreden nakit paradır.
                 </div>
             </div>
             <div id="ov-totals">
@@ -160,7 +163,7 @@
                         <span id="ov-tot-sav" style="color:var(--text); font-weight:700">0</span>
                     </div>
                     <div style="border-top:1px solid var(--border); margin:10px 0; padding-top:10px; display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
-                        <span style="color:var(--muted)">Toplam Gider:</span>
+                        <span style="color:var(--muted)">Toplam Gider (Harcanan):</span>
                         <span id="ov-tot-exp" style="color:var(--red); font-weight:700">0</span>
                     </div>
                     <div class="carryover">
@@ -258,7 +261,6 @@
             $("tot-sav").innerText = sSav.toLocaleString('tr-TR');
             $("ss-rate").innerText = "%" + (sInc>0 ? (sSav/sInc*100).toFixed(1) : 0);
 
-            // Ozet Paneli Guncelleme
             var pDebt = sInc > 0 ? ((sDebt/sInc)*100).toFixed(1) : 0;
             var pMand = sInc > 0 ? ((sMand/sInc)*100).toFixed(1) : 0;
             var pOth = sInc > 0 ? ((sOth/sInc)*100).toFixed(1) : 0;
@@ -306,13 +308,11 @@
             var item = DATA[k][type][idx];
             editType = type;
             editIdx = idx;
-            
             $("mType").value = type;
             updCats();
             $("catSel").value = item.cat;
             $("eName").value = item.name;
             $("eAmt").value = item.amt;
-            
             $("modalTitle").innerText = "Düzenle";
             $("addModal").classList.add("on");
         }
@@ -340,16 +340,13 @@
             var cat = $("catSel").value;
             var type = $("mType").value;
             if(amt <= 0) return alert("Tutar girin");
-            
             var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
-            
             if(editIdx !== null) {
                 DATA[k][editType].splice(editIdx, 1);
                 DATA[k][type].push({name:name, amt:amt, cat:cat});
             } else {
                 DATA[k][type].push({name:name, amt:amt, cat:cat});
             }
-            
             saveData(); render(); closeAdd();
         }
 
@@ -363,23 +360,41 @@
         function draw(inc, d, m, o, s) {
             var cvs=$("myChart"), ctx=cvs.getContext("2d");
             ctx.clearRect(0,0,160,160);
-            var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
-            var total = vals.reduce((a,b)=>a+b,0);
-            if(total==0) {
+            
+            // Grafigin tamami gelirdir. Eger gelir 0 ise bos ciz.
+            if(inc <= 0) {
                 ctx.strokeStyle = "#2a2d38"; ctx.lineWidth=10; ctx.beginPath(); ctx.arc(80,80,70,0,Math.PI*2); ctx.stroke();
+                $("chartLegend").innerHTML = '<div class="empty-msg">Gelir girilmediği için grafik çizilemiyor.</div>';
                 return;
             }
+
+            var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
+            
+            // Arka plan (Gelirin tamami)
+            ctx.fillStyle = "#1e2029";
+            ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,0,Math.PI*2); ctx.fill();
+
             var start = -Math.PI/2;
             $("chartLegend").innerHTML = "";
+            
             vals.forEach((v,i) => {
                 if(v<=0) return;
-                var slice = (v/total)*2*Math.PI;
+                // Dilim boyutu = (Harcama / Toplam Gelir) * 360 derece
+                var slice = (v/inc)*2*Math.PI;
                 ctx.fillStyle = colors[i];
                 ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,start,start+slice); ctx.fill();
                 start += slice;
-                var pct = inc > 0 ? ((v/inc)*100).toFixed(1) : 0;
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString('tr-TR')} (%${pct})</span></div>`;
+                
+                var pct = ((v/inc)*100).toFixed(1);
+                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: %${pct}</span></div>`;
             });
+
+            // Eger toplam harcama gelirden azsa, kalan kismi legend'a ekle
+            var totalUsed = vals.reduce((a,b)=>a+b,0);
+            if(totalUsed < inc) {
+                var carryPct = (((inc - totalUsed)/inc)*100).toFixed(1);
+                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--gold)"></div><span>Kalan Nakit: %${carryPct}</span></div>`;
+            }
         }
 
         function exportData() {
