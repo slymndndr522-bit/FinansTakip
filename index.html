@@ -22,6 +22,7 @@
         .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
         .btn-sm{padding:5px 10px;font-size:0.72rem}
         .btn-del{background:none;border:none;color:var(--red);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
+        .btn-edit{background:none;border:none;color:var(--gold);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
         .main-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto}
         .main-tab{flex:1;min-width:70px;padding:12px 8px;font-size:0.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);text-align:center;white-space:nowrap;transition:color .2s}
         .tab-income.on{color:var(--green);border-bottom-color:var(--green)}
@@ -61,37 +62,11 @@
         .sh-mandatory .sec-title{color:var(--mandatory)}
         .sh-other .sec-title{color:var(--other)}
         .sh-savings .sec-title{color:var(--blue)}
-        .badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:20px}
-        .bi{background:rgba(76,175,133,0.18);color:var(--green)}
-        .bd{background:rgba(224,92,92,0.18);color:var(--debt)}
-        .bm{background:rgba(232,135,74,0.18);color:var(--mandatory)}
-        .bo{background:rgba(155,127,232,0.18);color:var(--other)}
-        .bs{background:rgba(42,184,196,0.18);color:var(--blue)}
         .sec-right{display:flex;align-items:center;gap:8px}
         .sec-tot{font-size:1rem;font-weight:700}
-        .sh-income .sec-tot{color:var(--green)}
-        .sh-debt .sec-tot{color:var(--debt)}
-        .sh-mandatory .sec-tot{color:var(--mandatory)}
-        .sh-other .sec-tot{color:var(--other)}
-        .sh-savings .sec-tot{color:var(--blue)}
-        .pbar{height:4px;background:var(--surface2)}
-        .pbar-f{height:100%;transition:width .5s}
-        .pf-d{background:var(--debt)}
-        .pf-m{background:var(--mandatory)}
-        .pf-o{background:var(--other)}
-        .cat-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;border-bottom:1px solid rgba(42,45,56,0.4)}
-        .cat-name{font-size:0.8rem;font-weight:600}
-        .cat-right{display:flex;align-items:center;gap:6px}
-        .cat-amt{font-size:0.82rem;font-weight:700}
-        .ca-g{color:var(--green)}
-        .ca-r{color:var(--red)}
-        .ca-b{color:var(--blue)}
-        .entry-row{display:flex;align-items:center;padding:9px 16px 9px 28px;border-bottom:1px solid rgba(42,45,56,0.3);gap:8px}
+        .entry-row{display:flex;align-items:center;padding:9px 16px 9px 16px;border-bottom:1px solid rgba(42,45,56,0.3);gap:8px}
         .entry-name{flex:1;font-size:0.78rem;color:var(--muted)}
         .entry-amt{font-size:0.82rem;font-weight:600}
-        .ea-g{color:var(--green)}
-        .ea-r{color:var(--red)}
-        .ea-b{color:var(--blue)}
         .empty-msg{padding:16px;text-align:center;color:var(--muted);font-size:0.78rem;font-style:italic}
         .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
         .chart-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:14px}
@@ -100,33 +75,20 @@
         .legend{display:flex;flex-direction:column;gap:9px;flex:1;min-width:150px}
         .leg-item{display:flex;align-items:center;gap:8px;font-size:0.78rem}
         .leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
-        .leg-lbl{flex:1}
-        .leg-pct{color:var(--muted);font-size:0.7rem;min-width:32px;text-align:right}
-        .leg-val{font-weight:700;min-width:75px;text-align:right;font-size:0.8rem}
         .mt-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
-        .mt-head{font-size:0.9rem;font-weight:700;color:var(--gold);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-        .mt-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(42,45,56,0.4);font-size:0.82rem}
-        .mt-row:last-child{border-bottom:none}
-        .mt-lbl{color:var(--muted)}
-        .mt-val{font-weight:700;font-size:0.88rem}
-        .mt-section{color:var(--text);font-weight:700;font-size:0.72rem;padding-top:10px;border-bottom:none}
-        .carryover{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
-        .carry-lbl{font-size:0.6rem;text-transform:uppercase;color:var(--muted);font-weight:600}
-        .carry-val{font-size:1.15rem;font-weight:700}
+        .carryover{display:flex;flex-direction:column;gap:4px;padding:12px 14px;margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
+        .carry-lbl{font-size:0.6rem;text-transform:uppercase;color:var(--muted);font-weight:600;letter-spacing:1px}
+        .carry-val{font-size:1.2rem;font-weight:700;color:var(--gold)}
         .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:1000;align-items:flex-end;justify-content:center}
         .overlay.on{display:flex}
         .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto}
         input[type=text],input[type=number],select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:8px;font-size:0.9rem;outline:none;width:100%}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;font-size:0.82rem;font-weight:600;z-index:9999;transition:transform .3s;pointer-events:none}
-        .toast.on{transform:translateX(-50%) translateY(0)}
-        #loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
-        .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite}
-        @keyframes sp{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
-    <div id="loading"><div class="spin"></div><div style="color:var(--muted);font-size:0.82rem">Yukleniyor...</div></div>
-    
+    <div id="loading" style="position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px"><div style="width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite"></div><div style="color:var(--muted);font-size:0.82rem">Yukleniyor...</div></div>
+    <style>@keyframes sp{to{transform:rotate(360deg)}}</style>
+
     <header>
         <div class="logo">Finans<span>Takip</span></div>
         <div class="hbtns">
@@ -159,13 +121,13 @@
         <div class="panel" id="panel-expense">
             <div class="sum-row sum3"><div class="sc sc-exp"><div class="sc-lbl">Gider</div><div class="sc-val" id="se-exp">0</div></div><div class="sc sc-inc"><div class="sc-lbl">Gelir</div><div class="sc-val" id="se-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net</div><div class="sc-val" id="se-net">0</div></div></div>
             <div class="sec-card"><div class="sec-hdr sh-debt"><div class="sec-title">Borc</div><div class="sec-right"><span class="sec-tot" id="tot-debt">0</span></div></div><div id="list-debt"></div></div>
-            <div class="sec-card"><div class="sec-hdr sh-mandatory"><div class="sec-title">Zorunlu</div><div class="sec-right"><span class="sec-tot" id="tot-mand">0</span></div></div><div id="list-mand"></div></div>
-            <div class="sec-card"><div class="sec-hdr sh-other"><div class="sec-title">Diger</div><div class="sec-right"><span class="sec-tot" id="tot-other">0</span></div></div><div id="list-other"></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-mandatory"><div class="sec-title">Zorunlu Harcama</div><div class="sec-right"><span class="sec-tot" id="tot-mand">0</span></div></div><div id="list-mand"></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-other"><div class="sec-title">Diger Harcamalar</div><div class="sec-right"><span class="sec-tot" id="tot-other">0</span></div></div><div id="list-other"></div></div>
         </div>
 
         <div class="panel" id="panel-savings">
             <div class="sum-row sum2"><div class="sc sc-sav"><div class="sc-lbl">Birikim</div><div class="sc-val" id="ss-sav">0</div></div><div class="sc sc-rate"><div class="sc-lbl">Oran</div><div class="sc-val" id="ss-rate">%0</div></div></div>
-            <div class="sec-card"><div id="list-savings"></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-savings"><div class="sec-title">Birikim Detay</div><div class="sec-right"><span class="sec-tot" id="tot-sav">0</span></div></div><div id="list-savings"></div></div>
         </div>
 
         <div class="panel" id="panel-overview">
@@ -176,31 +138,51 @@
                     <div class="legend" id="chartLegend"></div>
                 </div>
             </div>
-            <div id="ov-totals"></div>
+            <div id="ov-totals">
+                <div class="mt-card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
+                        <span style="color:var(--muted)">Toplam Gelir:</span>
+                        <span id="ov-tot-inc" style="color:var(--green); font-weight:700">0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
+                        <span style="color:var(--muted)">Toplam Gider:</span>
+                        <span id="ov-tot-exp" style="color:var(--red); font-weight:700">0</span>
+                    </div>
+                    <div class="carryover">
+                        <div class="carry-lbl">Bir Sonraki Aya Devreden Tutar</div>
+                        <div class="carry-val" id="ov-carry">0</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="overlay" id="addModal">
         <div class="modal">
-            <h3 style="margin-bottom:15px">Yeni Ekle</h3>
+            <h3 id="modalTitle" style="margin-bottom:15px">Yeni Ekle</h3>
             <select id="mType" onchange="updCats()"><option value="income">Gelir</option><option value="debt">Borc</option><option value="mandatory">Zorunlu</option><option value="other">Diger</option><option value="savings">Birikim</option></select>
             <br><br>
             <select id="catSel"></select>
             <br><br>
-            <input type="text" id="eName" placeholder="Aciklama">
+            <input type="text" id="eName" placeholder="Aciklama (Opsiyonel)">
             <br><br>
             <input type="number" id="eAmt" placeholder="Tutar" inputmode="decimal">
             <br><br>
-            <button class="btn btn-gold" style="width:100%; justify-content:center" onclick="saveEntry()">Kaydet</button>
+            <button class="btn btn-gold" style="width:100%; justify-content:center" id="saveBtn" onclick="saveEntry()">Kaydet</button>
             <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:10px" onclick="closeAdd()">Kapat</button>
         </div>
     </div>
 
-    <div class="toast" id="toast"></div>
-
     <script>
         var DB_NAME="FT_DB", DB_VER=1, ST_NAME="data";
-        var db, DATA={}, CATS={income:["Maas","Ek Gelir","Diger"],debt:["Kredi","Kredi Karti","Diger"],mandatory:["Kira","Fatura","Market"],other:["Eglence","Ulasim","Diger"],savings:["Altin","Doviz","Borsa"]};
+        var db, DATA={}, editIdx=null, editType=null;
+        var CATS={
+            income:["Maas","Ek Gelir","Diger"],
+            debt:["Kredi","Kredi Karti","Sahis Borcu","Banka Faizi","Diger"],
+            mandatory:["Kira","Aidat","Elektrik Faturasi","Dogalgaz Faturasi","Su Faturasi","Telefon Faturasi","Internet Faturasi","Egitim Harcamalari","Dijital Platform Uyeleri","Akaryakit","Arac Bakimi","Arac Muayenesi","MTV","Diger"],
+            other:["Market","Manav","Kuruyemis","Ulasim","Giyim","Cocuk Giyim","Kisisel Bakim","Elektronik Alisveris","Usta","Yapi Dekorasyon","Diger"],
+            savings:["Altin","Doviz","Borsa","BES","Diger"]
+        };
         var $=function(id){return document.getElementById(id)};
 
         function openDB(cb) {
@@ -231,7 +213,6 @@
                 $("loading").style.display="none";
                 render();
             });
-            // Zorunlu kapatma (Her ihtimale karsi 3 saniye sonra yukleme ekranini kaldir)
             setTimeout(function(){ $("loading").style.display="none"; }, 3000);
         }
 
@@ -247,17 +228,23 @@
             var sSav = d.savings.reduce((a,b)=>a+b.amt,0);
             var sExp = sDebt+sMand+sOth;
 
-            $("si-inc").innerText = sInc.toLocaleString();
-            $("si-bal").innerText = (sInc - sExp - sSav).toLocaleString();
-            $("inc-tot").innerText = sInc.toLocaleString();
-            $("se-inc").innerText = sInc.toLocaleString();
-            $("se-exp").innerText = sExp.toLocaleString();
-            $("se-net").innerText = (sInc - sExp).toLocaleString();
-            $("tot-debt").innerText = sDebt.toLocaleString();
-            $("tot-mand").innerText = sMand.toLocaleString();
-            $("tot-other").innerText = sOth.toLocaleString();
-            $("ss-sav").innerText = sSav.toLocaleString();
-            $("ss-rate").innerText = "%" + (sInc>0 ? ((sInc-sExp)/sInc*100).toFixed(1) : 0);
+            $("si-inc").innerText = sInc.toLocaleString('tr-TR');
+            $("si-bal").innerText = (sInc - sExp - sSav).toLocaleString('tr-TR');
+            $("inc-tot").innerText = sInc.toLocaleString('tr-TR');
+            $("se-inc").innerText = sInc.toLocaleString('tr-TR');
+            $("se-exp").innerText = sExp.toLocaleString('tr-TR');
+            $("se-net").innerText = (sInc - sExp).toLocaleString('tr-TR');
+            $("tot-debt").innerText = sDebt.toLocaleString('tr-TR');
+            $("tot-mand").innerText = sMand.toLocaleString('tr-TR');
+            $("tot-other").innerText = sOth.toLocaleString('tr-TR');
+            $("ss-sav").innerText = sSav.toLocaleString('tr-TR');
+            $("tot-sav").innerText = sSav.toLocaleString('tr-TR');
+            $("ss-rate").innerText = "%" + (sInc>0 ? (sSav/sInc*100).toFixed(1) : 0);
+
+            // Ozet Paneli Guncelleme
+            $("ov-tot-inc").innerText = sInc.toLocaleString('tr-TR');
+            $("ov-tot-exp").innerText = sExp.toLocaleString('tr-TR');
+            $("ov-carry").innerText = (sInc - sExp - sSav).toLocaleString('tr-TR');
 
             list("list-income", d.income, "income");
             list("list-debt", d.debt, "debt");
@@ -270,8 +257,9 @@
         function list(id, arr, type) {
             var h = arr.map((item, idx) => `
                 <div class="entry-row">
-                    <span class="entry-name"><b>${item.cat}</b>: ${item.name}</span>
-                    <span class="entry-amt">${item.amt.toLocaleString()}</span>
+                    <span class="entry-name"><b>${item.cat}</b>${item.name?': '+item.name:''}</span>
+                    <span class="entry-amt">${item.amt.toLocaleString('tr-TR')}</span>
+                    <button class="btn-edit" onclick="editEntry('${type}',${idx})">✎</button>
                     <button class="btn-del" onclick="del('${type}',${idx})">X</button>
                 </div>
             `).join("");
@@ -285,8 +273,33 @@
             saveData(); render();
         }
 
-        function openAdd() { updCats(); $("addModal").classList.add("on"); }
-        function closeAdd() { $("addModal").classList.remove("on"); }
+        function editEntry(type, idx) {
+            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
+            var item = DATA[k][type][idx];
+            editType = type;
+            editIdx = idx;
+            
+            $("mType").value = type;
+            updCats();
+            $("catSel").value = item.cat;
+            $("eName").value = item.name;
+            $("eAmt").value = item.amt;
+            
+            $("modalTitle").innerText = "Düzenle";
+            $("addModal").classList.add("on");
+        }
+
+        function openAdd() { 
+            editIdx = null;
+            $("modalTitle").innerText = "Yeni Ekle";
+            updCats(); 
+            $("addModal").classList.add("on"); 
+        }
+
+        function closeAdd() { 
+            $("addModal").classList.remove("on"); 
+            $("eName").value=""; $("eAmt").value="";
+        }
 
         function updCats() {
             var t = $("mType").value;
@@ -294,16 +307,24 @@
         }
 
         function saveEntry() {
-            var name = $("eName").value || "Adsiz";
+            var name = $("eName").value || "";
             var amt = parseFloat($("eAmt").value) || 0;
             var cat = $("catSel").value;
             var type = $("mType").value;
             if(amt <= 0) return alert("Tutar girin");
             
             var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
-            DATA[k][type].push({name:name, amt:amt, cat:cat});
+            
+            if(editIdx !== null) {
+                // Duzenleme modu
+                DATA[k][editType].splice(editIdx, 1);
+                DATA[k][type].push({name:name, amt:amt, cat:cat});
+            } else {
+                // Yeni ekleme
+                DATA[k][type].push({name:name, amt:amt, cat:cat});
+            }
+            
             saveData(); render(); closeAdd();
-            $("eName").value=""; $("eAmt").value="";
         }
 
         function goTab(t) {
@@ -316,9 +337,12 @@
         function draw(inc, d, m, o, s) {
             var cvs=$("myChart"), ctx=cvs.getContext("2d");
             ctx.clearRect(0,0,160,160);
-            var vals=[inc,d,m,o,s], colors=["#4caf85","#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Gelir","Borc","Zorunlu","Diger","Birikim"];
+            var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
             var total = vals.reduce((a,b)=>a+b,0);
-            if(total==0) return;
+            if(total==0) {
+                ctx.strokeStyle = "#2a2d38"; ctx.lineWidth=10; ctx.beginPath(); ctx.arc(80,80,70,0,Math.PI*2); ctx.stroke();
+                return;
+            }
             var start = -Math.PI/2;
             $("chartLegend").innerHTML = "";
             vals.forEach((v,i) => {
@@ -327,7 +351,7 @@
                 ctx.fillStyle = colors[i];
                 ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,start,start+slice); ctx.fill();
                 start += slice;
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString()}</span></div>`;
+                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString('tr-TR')}</span></div>`;
             });
         }
 
