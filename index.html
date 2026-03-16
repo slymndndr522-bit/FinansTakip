@@ -18,7 +18,6 @@
         select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:0.85rem;cursor:pointer;outline:none;-webkit-appearance:none}
         .btn{font-size:0.78rem;font-weight:600;padding:7px 13px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
         .btn-gold{background:var(--gold);color:#0e0f13}
-        .btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
         .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
         .btn-sm{padding:5px 10px;font-size:0.72rem}
         .btn-del{background:none;border:none;color:var(--red);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
@@ -132,7 +131,7 @@
 
         <div class="panel" id="panel-overview">
             <div class="chart-card">
-                <div class="chart-title">Aylik Dagilim</div>
+                <div class="chart-title">Aylik Dagilim (Gelire Oranla)</div>
                 <div class="chart-inner">
                     <canvas id="myChart" width="160" height="160"></canvas>
                     <div class="legend" id="chartLegend"></div>
@@ -145,12 +144,29 @@
                         <span id="ov-tot-inc" style="color:var(--green); font-weight:700">0</span>
                     </div>
                     <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
+                        <span style="color:var(--muted)">Borç:</span>
+                        <span id="ov-tot-debt" style="color:var(--text); font-weight:700">0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
+                        <span style="color:var(--muted)">Zorunlu Gider:</span>
+                        <span id="ov-tot-mand" style="color:var(--text); font-weight:700">0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
+                        <span style="color:var(--muted)">Diğer Harcamalar:</span>
+                        <span id="ov-tot-other" style="color:var(--text); font-weight:700">0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
+                        <span style="color:var(--muted)">Birikim:</span>
+                        <span id="ov-tot-sav" style="color:var(--text); font-weight:700">0</span>
+                    </div>
+                    <div style="border-top:1px solid var(--border); margin:10px 0; padding-top:10px; display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
                         <span style="color:var(--muted)">Toplam Gider:</span>
                         <span id="ov-tot-exp" style="color:var(--red); font-weight:700">0</span>
                     </div>
                     <div class="carryover">
                         <div class="carry-lbl">Bir Sonraki Aya Devreden Tutar</div>
                         <div class="carry-val" id="ov-carry">0</div>
+                        <div id="ov-carry-pct" style="font-size:0.7rem; color:var(--muted); font-weight:600; margin-top:2px">Gelirin %0 kadarı</div>
                     </div>
                 </div>
             </div>
@@ -227,9 +243,10 @@
             var sOth = d.other.reduce((a,b)=>a+b.amt,0);
             var sSav = d.savings.reduce((a,b)=>a+b.amt,0);
             var sExp = sDebt+sMand+sOth;
+            var sCarry = sInc - sExp - sSav;
 
             $("si-inc").innerText = sInc.toLocaleString('tr-TR');
-            $("si-bal").innerText = (sInc - sExp - sSav).toLocaleString('tr-TR');
+            $("si-bal").innerText = sCarry.toLocaleString('tr-TR');
             $("inc-tot").innerText = sInc.toLocaleString('tr-TR');
             $("se-inc").innerText = sInc.toLocaleString('tr-TR');
             $("se-exp").innerText = sExp.toLocaleString('tr-TR');
@@ -242,9 +259,20 @@
             $("ss-rate").innerText = "%" + (sInc>0 ? (sSav/sInc*100).toFixed(1) : 0);
 
             // Ozet Paneli Guncelleme
+            var pDebt = sInc > 0 ? ((sDebt/sInc)*100).toFixed(1) : 0;
+            var pMand = sInc > 0 ? ((sMand/sInc)*100).toFixed(1) : 0;
+            var pOth = sInc > 0 ? ((sOth/sInc)*100).toFixed(1) : 0;
+            var pSav = sInc > 0 ? ((sSav/sInc)*100).toFixed(1) : 0;
+            var pCarry = sInc > 0 ? ((sCarry/sInc)*100).toFixed(1) : 0;
+
             $("ov-tot-inc").innerText = sInc.toLocaleString('tr-TR');
+            $("ov-tot-debt").innerText = sDebt.toLocaleString('tr-TR') + " (%" + pDebt + ")";
+            $("ov-tot-mand").innerText = sMand.toLocaleString('tr-TR') + " (%" + pMand + ")";
+            $("ov-tot-other").innerText = sOth.toLocaleString('tr-TR') + " (%" + pOth + ")";
+            $("ov-tot-sav").innerText = sSav.toLocaleString('tr-TR') + " (%" + pSav + ")";
             $("ov-tot-exp").innerText = sExp.toLocaleString('tr-TR');
-            $("ov-carry").innerText = (sInc - sExp - sSav).toLocaleString('tr-TR');
+            $("ov-carry").innerText = sCarry.toLocaleString('tr-TR');
+            $("ov-carry-pct").innerText = "Toplam gelirin %" + pCarry + " kadarı";
 
             list("list-income", d.income, "income");
             list("list-debt", d.debt, "debt");
@@ -316,11 +344,9 @@
             var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
             
             if(editIdx !== null) {
-                // Duzenleme modu
                 DATA[k][editType].splice(editIdx, 1);
                 DATA[k][type].push({name:name, amt:amt, cat:cat});
             } else {
-                // Yeni ekleme
                 DATA[k][type].push({name:name, amt:amt, cat:cat});
             }
             
@@ -351,7 +377,8 @@
                 ctx.fillStyle = colors[i];
                 ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,start,start+slice); ctx.fill();
                 start += slice;
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString('tr-TR')}</span></div>`;
+                var pct = inc > 0 ? ((v/inc)*100).toFixed(1) : 0;
+                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString('tr-TR')} (%${pct})</span></div>`;
             });
         }
 
