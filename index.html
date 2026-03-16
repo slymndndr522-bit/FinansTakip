@@ -12,6 +12,7 @@
             --glass: rgba(10, 15, 30, 0.85);
             --border: rgba(255, 255, 255, 0.1);
             --orion-blue: #3a86ff;
+            --orion-purple: #8338ec;
             --text: #f8f9fa;
             --green: #06d6a0;
             --red: #ef476f;
@@ -21,48 +22,49 @@
         body { 
             background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; 
             min-height: 100vh; overflow-x: hidden;
-            background-image: radial-gradient(circle at 80% 10%, rgba(58,134,255,0.15), transparent);
+            background-image: radial-gradient(circle at 80% 10%, rgba(58,134,255,0.15), transparent),
+                             radial-gradient(circle at 10% 90%, rgba(131,56,236,0.15), transparent);
         }
 
         .star-man {
-            position: fixed; bottom: -20px; right: -30px; width: 200px; height: 300px;
+            position: fixed; bottom: -20px; right: -30px; width: 220px; height: 350px;
             background: linear-gradient(to top, var(--bg), transparent), 
                         url('https://raw.githubusercontent.com/slymndndr522-bit/FinansTakip/main/orion-silhouette.png') no-repeat center;
-            background-size: contain; opacity: 0.2; pointer-events: none; z-index: 0;
+            background-size: contain; opacity: 0.25; pointer-events: none; z-index: 0; filter: drop-shadow(0 0 15px var(--orion-blue));
         }
 
-        header { padding: 20px; background: var(--glass); border-bottom: 1px solid var(--border); text-align: center; }
-        .logo { font-weight: 800; letter-spacing: 3px; font-size: 1.2rem; }
-        .logo span { color: var(--orion-blue); text-shadow: 0 0 10px var(--orion-blue); }
+        header { padding: 25px; background: var(--glass); backdrop-filter: blur(25px); border-bottom: 1px solid var(--border); text-align: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 800; letter-spacing: 5px; font-size: 1.5rem; }
+        .logo span { color: var(--orion-blue); text-shadow: 0 0 15px var(--orion-blue); }
 
-        .content { padding: 15px; position: relative; z-index: 1; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 15px; backdrop-filter: blur(20px); }
-        .card-title { font-size: 0.75rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
+        .content { padding: 20px; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card-title { font-size: 0.8rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
 
-        label { display: block; font-size: 0.7rem; color: var(--orion-blue); margin-bottom: 5px; font-weight: 700; }
+        label { display: block; font-size: 0.7rem; color: var(--orion-blue); margin-bottom: 8px; font-weight: 800; }
         select, input { 
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            color: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; font-family: 'Space Mono', monospace;
+            color: white; padding: 14px; border-radius: 15px; margin-bottom: 15px; font-family: 'Space Mono', monospace; font-size: 0.9rem;
         }
 
         .btn-add { 
-            width: 100%; background: var(--orion-blue); color: white; border: none; 
-            padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(58,134,255,0.3);
+            width: 100%; background: linear-gradient(45deg, var(--orion-blue), var(--orion-purple)); color: white; border: none; 
+            padding: 16px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 1rem;
+            box-shadow: 0 5px 20px rgba(58,134,255,0.4); transition: 0.3s;
         }
 
-        .record-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .record-info { display: flex; flex-direction: column; }
-        .record-cat { font-weight: 700; font-size: 0.9rem; }
-        .record-sub { font-size: 0.65rem; color: rgba(255,255,255,0.5); }
+        .record-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .record-info { display: flex; flex-direction: column; gap: 4px; }
+        .record-cat { font-weight: 800; font-size: 1rem; color: var(--text); }
+        .record-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Space Mono', monospace; }
         
-        .record-actions { display: flex; align-items: center; gap: 10px; }
-        .amt-val { font-family: 'Space Mono', monospace; font-weight: 700; }
-        .btn-edit { color: var(--orion-blue); background: none; border: none; font-size: 1.1rem; }
-        .btn-del { color: var(--red); background: none; border: none; font-size: 1.1rem; }
+        .record-actions { display: flex; align-items: center; gap: 15px; }
+        .amt-val { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1rem; }
+        .btn-edit { color: var(--orion-blue); background: none; border: none; font-size: 1.3rem; cursor: pointer; }
+        .btn-del { color: var(--red); background: none; border: none; font-size: 1.3rem; cursor: pointer; }
 
-        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; }
-        .summary-total { border-top: 1px solid var(--orion-blue); margin-top: 10px; padding-top: 10px; font-weight: 800; }
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 0.9rem; font-weight: 700; }
+        .summary-total { border-top: 1px solid var(--orion-blue); margin-top: 15px; padding-top: 15px; font-weight: 800; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -73,8 +75,8 @@
 
 <div class="content">
     <div class="card">
-        <div class="card-title">İŞLEM GİRİŞİ</div>
-        <label>Kategori</label>
+        <div class="card-title">YENİ İŞLEM KAYDI</div>
+        <label>ANA KATEGORİ</label>
         <select id="mainCat" onchange="updateSubCats()">
             <option value="Gelir">Gelir</option>
             <option value="Borç">Borç</option>
@@ -83,31 +85,31 @@
             <option value="Birikim">Birikim</option>
         </select>
         
-        <label>Alt Başlık</label>
+        <label>ALT BAŞLIK</label>
         <select id="subCat"></select>
 
-        <label>Tutar (₺)</label>
+        <label>TUTAR (₺)</label>
         <input type="number" id="amount" placeholder="0.00">
 
-        <label>Açıklama (Opsiyonel)</label>
-        <input type="text" id="desc" placeholder="...">
+        <label>AÇIKLAMA (OPSİYONEL)</label>
+        <input type="text" id="desc" placeholder="İsteğe bağlı not...">
 
         <button class="btn-add" id="saveBtn" onclick="saveRecord()">KAYDET</button>
     </div>
 
     <div class="card">
-        <div class="card-title">ÖZET (DEVREDEN TUTAR)</div>
+        <div class="card-title">MALİ ÖZET</div>
         <div id="summary"></div>
     </div>
 
     <div class="card">
-        <div class="card-title">GEÇMİŞ İŞLEMLER</div>
+        <div class="card-title">İŞLEM GEÇMİŞİ</div>
         <div id="list"></div>
     </div>
 </div>
 
 <script>
-    let data = JSON.parse(localStorage.getItem('orion_fin_v5') || '[]');
+    let data = JSON.parse(localStorage.getItem('orion_fin_v10') || '[]');
     let editId = -1;
 
     const subs = {
@@ -124,21 +126,26 @@
     }
 
     function saveRecord() {
-        const amt = document.getElementById('amount').value;
-        if(!amt) return;
+        const amtInput = document.getElementById('amount');
+        if(!amtInput.value) return;
 
         const obj = {
             main: document.getElementById('mainCat').value,
             sub: document.getElementById('subCat').value,
-            amt: parseFloat(amt),
+            amt: parseFloat(amtInput.value),
             desc: document.getElementById('desc').value || ""
         };
 
-        if(editId > -1) { data[editId] = obj; editId = -1; document.getElementById('saveBtn').innerText="KAYDET"; }
-        else { data.push(obj); }
+        if(editId > -1) { 
+            data[editId] = obj; 
+            editId = -1; 
+            document.getElementById('saveBtn').innerText="KAYDET"; 
+        } else { 
+            data.push(obj); 
+        }
 
-        localStorage.setItem('orion_fin_v5', JSON.stringify(data));
-        document.getElementById('amount').value = '';
+        localStorage.setItem('orion_fin_v10', JSON.stringify(data));
+        amtInput.value = '';
         document.getElementById('desc').value = '';
         render();
     }
@@ -152,10 +159,16 @@
         document.getElementById('desc').value = r.desc;
         editId = i;
         document.getElementById('saveBtn').innerText = "GÜNCELLE";
-        window.scrollTo(0,0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    function del(i) { data.splice(i, 1); localStorage.setItem('orion_fin_v5', JSON.stringify(data)); render(); }
+    function del(i) { 
+        if(confirm("Silmek istediğinize emin misiniz?")) {
+            data.splice(i, 1); 
+            localStorage.setItem('orion_fin_v10', JSON.stringify(data)); 
+            render(); 
+        }
+    }
 
     function render() {
         const list = document.getElementById('list');
@@ -167,7 +180,7 @@
                 </div>
                 <div class="record-actions">
                     <span class="amt-val" style="color:${r.main==='Gelir'?'var(--green)':'var(--red)'}">
-                        ${r.main==='Gelir'?'+':'-'}₺${r.amt.toLocaleString()}
+                        ${r.main==='Gelir'?'+':'-'}₺${r.amt.toLocaleString('tr-TR')}
                     </span>
                     <button class="btn-edit" onclick="edit(${i})">✎</button>
                     <button class="btn-del" onclick="del(${i})">✕</button>
@@ -175,13 +188,21 @@
             </div>
         `).reverse().join('');
 
-        let g = 0, h = 0;
-        data.forEach(r => { if(r.main === 'Gelir') g += r.amt; else h += r.amt; });
+        let tGelir = 0, tGider = 0;
+        data.forEach(r => { 
+            if(r.main === 'Gelir') tGelir += r.amt; 
+            else tGider += r.amt; 
+        });
         
+        const devreden = tGelir - tGider;
+
         document.getElementById('summary').innerHTML = `
-            <div class="summary-row"><span>Toplam Gelir:</span><span style="color:var(--green)">+₺${g.toLocaleString()}</span></div>
-            <div class="summary-row"><span>Toplam Gider:</span><span style="color:var(--red)">-₺${h.toLocaleString()}</span></div>
-            <div class="summary-row summary-total"><span>S. Aya Devreden:</span><span style="color:var(--orion-blue)">₺${(g-h).toLocaleString()}</span></div>
+            <div class="summary-row"><span>Toplam Gelir:</span><span style="color:var(--green)">₺${tGelir.toLocaleString('tr-TR')}</span></div>
+            <div class="summary-row"><span>Toplam Gider:</span><span style="color:var(--red)">₺${tGider.toLocaleString('tr-TR')}</span></div>
+            <div class="summary-row summary-total">
+                <span>S. Aya Devreden:</span>
+                <span style="color:var(--orion-blue)">₺${devreden.toLocaleString('tr-TR')}</span>
+            </div>
         `;
     }
 
