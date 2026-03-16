@@ -12,71 +12,83 @@
             --glass: rgba(10, 15, 30, 0.85);
             --border: rgba(255, 255, 255, 0.1);
             --orion-blue: #3a86ff;
-            --orion-purple: #8338ec;
             --text: #f8f9fa;
             --green: #06d6a0;
             --red: #ef476f;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; 
             min-height: 100vh; overflow-x: hidden;
-            background-image: radial-gradient(circle at 80% 10%, rgba(58,134,255,0.15), transparent),
-                             radial-gradient(circle at 10% 90%, rgba(131,56,236,0.15), transparent);
+            background-image: radial-gradient(circle at 80% 10%, rgba(58,134,255,0.15), transparent);
         }
 
         .star-man {
-            position: fixed; bottom: -20px; right: -30px; width: 220px; height: 350px;
+            position: fixed; bottom: -20px; right: -30px; width: 200px; height: 300px;
             background: linear-gradient(to top, var(--bg), transparent), 
                         url('https://raw.githubusercontent.com/slymndndr522-bit/FinansTakip/main/orion-silhouette.png') no-repeat center;
-            background-size: contain; opacity: 0.25; pointer-events: none; z-index: 0; filter: drop-shadow(0 0 15px var(--orion-blue));
+            background-size: contain; opacity: 0.2; pointer-events: none; z-index: 0;
         }
 
-        header { padding: 25px; background: var(--glass); backdrop-filter: blur(25px); border-bottom: 1px solid var(--border); text-align: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: 800; letter-spacing: 5px; font-size: 1.5rem; }
-        .logo span { color: var(--orion-blue); text-shadow: 0 0 15px var(--orion-blue); }
+        header { padding: 15px; background: var(--glass); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 1rem; letter-spacing: 2px; }
+        .logo span { color: var(--orion-blue); }
 
-        .content { padding: 20px; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-title { font-size: 0.8rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
+        .top-nav { display: flex; gap: 10px; padding: 10px; justify-content: center; background: rgba(255,255,255,0.03); }
+        .nav-btn { background: none; border: 1px solid var(--border); color: var(--text); padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; }
 
-        label { display: block; font-size: 0.7rem; color: var(--orion-blue); margin-bottom: 8px; font-weight: 800; }
+        .content { padding: 15px; position: relative; z-index: 1; }
+        
+        .period-box { text-align: center; margin-bottom: 15px; }
+        .period-box h2 { font-size: 1.2rem; color: var(--orion-blue); }
+
+        .summary-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; }
+        .bakiye-label { font-size: 0.7rem; color: var(--orion-blue); font-weight: 800; }
+        .bakiye-val { font-size: 2rem; font-family: 'Space Mono', monospace; font-weight: 700; margin: 5px 0; }
+
+        .form-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 15px; }
+        label { display: block; font-size: 0.65rem; color: var(--orion-blue); margin-bottom: 5px; font-weight: 800; }
         select, input { 
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            color: white; padding: 14px; border-radius: 15px; margin-bottom: 15px; font-family: 'Space Mono', monospace; font-size: 0.9rem;
+            color: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; font-family: 'Space Mono', monospace;
         }
 
-        .btn-add { 
-            width: 100%; background: linear-gradient(45deg, var(--orion-blue), var(--orion-purple)); color: white; border: none; 
-            padding: 16px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 1rem;
-            box-shadow: 0 5px 20px rgba(58,134,255,0.4); transition: 0.3s;
-        }
+        .btn-add-main { width: 100%; background: var(--orion-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
-        .record-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .record-info { display: flex; flex-direction: column; gap: 4px; }
-        .record-cat { font-weight: 800; font-size: 1rem; color: var(--text); }
-        .record-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Space Mono', monospace; }
-        
-        .record-actions { display: flex; align-items: center; gap: 15px; }
-        .amt-val { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1rem; }
-        .btn-edit { color: var(--orion-blue); background: none; border: none; font-size: 1.3rem; cursor: pointer; }
-        .btn-del { color: var(--red); background: none; border: none; font-size: 1.3rem; cursor: pointer; }
-
-        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 0.9rem; font-weight: 700; }
-        .summary-total { border-top: 1px solid var(--orion-blue); margin-top: 15px; padding-top: 15px; font-weight: 800; font-size: 1.1rem; }
+        .record-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .btn-action { background: none; border: none; font-size: 1.1rem; cursor: pointer; padding: 0 5px; }
     </style>
 </head>
 <body>
 
 <div class="star-man"></div>
 
-<header><div class="logo">ORION <span>AI</span></div></header>
+<header>
+    <div class="logo">ORION <span>AI</span></div>
+    [span_1](start_span)<div style="font-size: 0.7rem; font-weight: 800;">FİNANS TAKİP[span_1](end_span)</div>
+</header>
+
+<div class="top-nav">
+    [span_2](start_span)<button class="nav-btn">YEDEK[span_2](end_span)</button>
+    [span_3](start_span)<button class="nav-btn">YÜKLE[span_3](end_span)</button>
+    [span_4](start_span)<button class="nav-btn">KIYASLA[span_4](end_span)</button>
+</div>
 
 <div class="content">
-    <div class="card">
-        <div class="card-title">YENİ İŞLEM KAYDI</div>
-        <label>ANA KATEGORİ</label>
+    <div class="period-box">
+        [span_5](start_span)<div style="font-size: 0.6rem; letter-spacing: 2px;">DÖNEM[span_5](end_span)</div>
+        [span_6](start_span)<h2>Mart 2026[span_6](end_span)</h2>
+    </div>
+
+    <div class="summary-card">
+        [span_7](start_span)<div class="bakiye-label">NET BAKİYE[span_7](end_span)</div>
+        [span_8](start_span)<div id="netBakiye" class="bakiye-val" style="color: var(--green);">+0,00[span_8](end_span)</div>
+        [span_9](start_span)<div style="font-size: 0.7rem; color: rgba(255,255,255,0.5);">Toplam Gelir: <span id="topGelir">0,00</span>[span_9](end_span)</div>
+    </div>
+
+    <div class="form-card">
+        <label>KATEGORİ</label>
         <select id="mainCat" onchange="updateSubCats()">
             <option value="Gelir">Gelir</option>
             <option value="Borç">Borç</option>
@@ -92,24 +104,19 @@
         <input type="number" id="amount" placeholder="0.00">
 
         <label>AÇIKLAMA (OPSİYONEL)</label>
-        <input type="text" id="desc" placeholder="İsteğe bağlı not...">
+        <input type="text" id="desc" placeholder="...">
 
-        <button class="btn-add" id="saveBtn" onclick="saveRecord()">KAYDET</button>
+        <button class="btn-add-main" id="saveBtn" onclick="saveRecord()">KAYDET</button>
     </div>
 
-    <div class="card">
-        <div class="card-title">MALİ ÖZET</div>
-        <div id="summary"></div>
-    </div>
-
-    <div class="card">
-        <div class="card-title">İŞLEM GEÇMİŞİ</div>
+    <div class="form-card">
+        [span_10](start_span)<div style="font-size: 0.7rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 10px;">İŞLEM GEÇMİŞİ[span_10](end_span)</div>
         <div id="list"></div>
     </div>
 </div>
 
 <script>
-    let data = JSON.parse(localStorage.getItem('orion_fin_v10') || '[]');
+    let data = JSON.parse(localStorage.getItem('orion_fin_v2026') || '[]');
     let editId = -1;
 
     const subs = {
@@ -126,84 +133,51 @@
     }
 
     function saveRecord() {
-        const amtInput = document.getElementById('amount');
-        if(!amtInput.value) return;
-
-        const obj = {
-            main: document.getElementById('mainCat').value,
-            sub: document.getElementById('subCat').value,
-            amt: parseFloat(amtInput.value),
-            desc: document.getElementById('desc').value || ""
-        };
-
-        if(editId > -1) { 
-            data[editId] = obj; 
-            editId = -1; 
-            document.getElementById('saveBtn').innerText="KAYDET"; 
-        } else { 
-            data.push(obj); 
-        }
-
-        localStorage.setItem('orion_fin_v10', JSON.stringify(data));
-        amtInput.value = '';
-        document.getElementById('desc').value = '';
+        const amt = document.getElementById('amount').value;
+        if(!amt) return;
+        const obj = { main: document.getElementById('mainCat').value, sub: document.getElementById('subCat').value, amt: parseFloat(amt), desc: document.getElementById('desc').value || "" };
+        if(editId > -1) { data[editId] = obj; editId = -1; document.getElementById('saveBtn').innerText="KAYDET"; }
+        else { data.push(obj); }
+        localStorage.setItem('orion_fin_v2026', JSON.stringify(data));
+        document.getElementById('amount').value = ''; document.getElementById('desc').value = '';
         render();
     }
 
     function edit(i) {
         const r = data[i];
-        document.getElementById('mainCat').value = r.main;
-        updateSubCats();
-        document.getElementById('subCat').value = r.sub;
-        document.getElementById('amount').value = r.amt;
-        document.getElementById('desc').value = r.desc;
-        editId = i;
-        document.getElementById('saveBtn').innerText = "GÜNCELLE";
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        document.getElementById('mainCat').value = r.main; updateSubCats();
+        document.getElementById('subCat').value = r.sub; document.getElementById('amount').value = r.amt;
+        document.getElementById('desc').value = r.desc; editId = i;
+        document.getElementById('saveBtn').innerText = "GÜNCELLE"; window.scrollTo(0,0);
     }
 
-    function del(i) { 
-        if(confirm("Silmek istediğinize emin misiniz?")) {
-            data.splice(i, 1); 
-            localStorage.setItem('orion_fin_v10', JSON.stringify(data)); 
-            render(); 
-        }
-    }
+    function del(i) { data.splice(i, 1); localStorage.setItem('orion_fin_v2026', JSON.stringify(data)); render(); }
 
     function render() {
         const list = document.getElementById('list');
         list.innerHTML = data.map((r, i) => `
             <div class="record-item">
-                <div class="record-info">
-                    <span class="record-cat">${r.sub}</span>
-                    <span class="record-sub">${r.main} ${r.desc ? '• '+r.desc : ''}</span>
+                <div style="display:flex; flex-direction:column;">
+                    <span style="font-weight:700; font-size:0.85rem;">${r.sub}</span>
+                    <span style="font-size:0.6rem; color:rgba(255,255,255,0.5);">${r.main} ${r.desc ? '• '+r.desc : ''}</span>
                 </div>
-                <div class="record-actions">
-                    <span class="amt-val" style="color:${r.main==='Gelir'?'var(--green)':'var(--red)'}">
-                        ${r.main==='Gelir'?'+':'-'}₺${r.amt.toLocaleString('tr-TR')}
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-family:'Space Mono'; font-weight:700; color:${r.main==='Gelir'?'var(--green)':'var(--red)'}">
+                        ${r.main==='Gelir'?'+':'-'}${r.amt.toLocaleString('tr-TR')}
                     </span>
-                    <button class="btn-edit" onclick="edit(${i})">✎</button>
-                    <button class="btn-del" onclick="del(${i})">✕</button>
+                    <button class="btn-action" style="color:var(--orion-blue)" onclick="edit(${i})">✎</button>
+                    <button class="btn-action" style="color:var(--red)" onclick="del(${i})">✕</button>
                 </div>
             </div>
         `).reverse().join('');
 
-        let tGelir = 0, tGider = 0;
-        data.forEach(r => { 
-            if(r.main === 'Gelir') tGelir += r.amt; 
-            else tGider += r.amt; 
-        });
-        
-        const devreden = tGelir - tGider;
-
-        document.getElementById('summary').innerHTML = `
-            <div class="summary-row"><span>Toplam Gelir:</span><span style="color:var(--green)">₺${tGelir.toLocaleString('tr-TR')}</span></div>
-            <div class="summary-row"><span>Toplam Gider:</span><span style="color:var(--red)">₺${tGider.toLocaleString('tr-TR')}</span></div>
-            <div class="summary-row summary-total">
-                <span>S. Aya Devreden:</span>
-                <span style="color:var(--orion-blue)">₺${devreden.toLocaleString('tr-TR')}</span>
-            </div>
-        `;
+        let g = 0, h = 0;
+        data.forEach(r => { if(r.main === 'Gelir') g += r.amt; else h += r.amt; });
+        const net = g - h;
+        document.getElementById('topGelir').innerText = g.toLocaleString('tr-TR');
+        const bakiyeEl = document.getElementById('netBakiye');
+        bakiyeEl.innerText = (net >= 0 ? '+' : '') + net.toLocaleString('tr-TR');
+        bakiyeEl.style.color = net >= 0 ? 'var(--green)' : 'var(--red)';
     }
 
     updateSubCats();
