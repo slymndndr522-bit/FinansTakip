@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ORION Finans Takip v3.5</title>
+    <title>ORION Finans Takip v4.0</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto+Mono:wght@400;700&display=swap');
         
@@ -24,12 +24,11 @@
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 20px; }
         .card-title { font-size: 0.8rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Form Elemanları */
         .form-group { margin-bottom: 12px; }
         label { display: block; font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px; font-weight: 600; }
         select, input { 
             width: 100%; background: var(--bg); border: 1px solid var(--border); 
-            color: var(--text-primary); padding: 10px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            color: var(--text-primary); padding: 10px; border-radius: 8px; font-size: 0.9rem;
         }
 
         button.btn-add { 
@@ -37,35 +36,30 @@
             padding: 12px; border-radius: 8px; font-weight: 700; margin-top: 10px; cursor: pointer;
         }
 
-        /* Liste Elemanları ve Düzenleme Butonları */
-        .record-item { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 0; border-bottom: 1px solid var(--border); 
-        }
-        .record-info { display: flex; flex-direction: column; }
+        .record-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .record-info { display: flex; flex-direction: column; gap: 2px; }
         .record-cat { font-size: 0.85rem; font-weight: 700; }
-        .record-desc { font-size: 0.7rem; color: var(--text-secondary); }
+        .record-desc { font-size: 0.65rem; color: var(--text-secondary); }
         
-        .record-actions { display: flex; align-items: center; gap: 8px; }
-        .amount { font-family: 'Roboto Mono', monospace; font-weight: 700; margin-right: 10px; }
+        .record-actions { display: flex; align-items: center; gap: 12px; }
+        .amount { font-family: 'Roboto Mono', monospace; font-weight: 700; font-size: 0.9rem; }
         
-        .btn-edit { color: var(--orion-blue); background: none; border: none; font-size: 1.1rem; cursor: pointer; }
-        .btn-delete { color: var(--red); background: none; border: none; font-size: 1.1rem; cursor: pointer; }
+        .btn-edit { color: var(--orion-blue); background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; }
+        .btn-delete { color: var(--red); background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; }
 
-        /* Özet Tablosu */
         .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.9rem; }
         .summary-total { border-top: 2px solid var(--border); margin-top: 10px; padding-top: 10px; font-weight: 800; }
-        .devreden { color: var(--green); }
-        .gider-text { color: var(--red); }
+        .text-income { color: var(--green); }
+        .text-expense { color: var(--red); }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div class="logo" style="font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; text-align: center;">ORION <span>FINANS</span></div>
+    <div style="font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; text-align: center; color: var(--text-primary);">ORION <span>FINANS</span></div>
     
     <div class="form-group">
-        <label>İşlem Tipi</label>
+        <label>Ana Başlık</label>
         <select id="mainCat" onchange="updateSubCats()">
             <option value="Gelir">Gelir</option>
             <option value="Borç">Borç</option>
@@ -86,31 +80,31 @@
     </div>
 
     <div class="form-group">
-        <label>Açıklama (Opsiyonel)</label>
-        <input type="text" id="description" placeholder="Not ekleyin...">
+        <label>Açıklama (İsteğe Bağlı)</label>
+        <input type="text" id="description" placeholder="Açıklama yazmasanız da olur">
     </div>
 
-    <button class="btn-add" onclick="addRecord()">KAYDET</button>
+    <button class="btn-add" id="saveBtn" onclick="addRecord()">KAYDET</button>
 </div>
 
 <div class="card">
-    <div class="card-title">Özet Raporu</div>
+    <div class="card-title">Özet Görüntüleme</div>
     <div id="summaryContent"></div>
 </div>
 
 <div class="card">
-    <div class="card-title">İşlem Kayıtları</div>
+    <div class="card-title">Son İşlemler</div>
     <div id="recordList"></div>
 </div>
 
 <script>
-    let records = JSON.parse(localStorage.getItem('orion_finance_data') || '[]');
+    let records = JSON.parse(localStorage.getItem('orion_v4_data') || '[]');
     let editIndex = -1;
 
     const subCategories = {
         'Gelir': ['Maaş', 'Ek Gelir', 'Kira Geliri', 'Diğer'],
         'Borç': ['Kredi', 'Şahıs Borcu', 'Banka Faizi', 'Diğer'],
-        'Zorunlu': ['Kira', 'Aidat', 'Elektrik Faturası', 'Doğalgaz Faturası', 'Su Faturası', 'Telefon faturası', 'İnternet Faturası', 'Eğitim Harcamaları', 'Dijital Platform Üyelikleri', 'Akaryakıt', 'Araç Bakımı', 'Araç Muayenesi', 'MTV', 'Diğer'],
+        'Zorunlu': ['Kira', 'Aidat', 'Elektrik Faturası', 'Doğalgaz Faturası', 'Su Faturası', 'Telefon Faturası', 'İnternet Faturası', 'Eğitim Harcamaları', 'Dijital Platform Üyelikleri', 'Akaryakıt', 'Araç Bakımı', 'Araç Muayenesi', 'MTV', 'Diğer'],
         'Diğer': ['Market', 'Manav', 'Kuruyemiş', 'Ulaşım', 'Giyim', 'Çocuk Giyim', 'Kişisel Bakım', 'Elektronik Alışveriş', 'Usta', 'Yapı Dekorasyon', 'Diğer'],
         'Birikim': ['Altın', 'Döviz', 'Borsa', 'BES', 'Diğer']
     };
@@ -122,31 +116,30 @@
     }
 
     function addRecord() {
-        const amt = document.getElementById('amount').value;
-        if(!amt) return alert("Lütfen tutar giriniz.");
+        const amtInput = document.getElementById('amount');
+        const descInput = document.getElementById('description');
+        
+        if(!amtInput.value) { alert("Lütfen bir tutar girin."); return; }
 
         const record = {
             main: document.getElementById('mainCat').value,
             sub: document.getElementById('subCat').value,
-            amount: parseFloat(amt),
-            desc: document.getElementById('description').value || ""
+            amount: parseFloat(amtInput.value),
+            desc: descInput.value || ""
         };
 
         if(editIndex > -1) {
             records[editIndex] = record;
             editIndex = -1;
+            document.getElementById('saveBtn').innerText = "KAYDET";
         } else {
             records.push(record);
         }
 
-        saveAndRender();
-        document.getElementById('amount').value = '';
-        document.getElementById('description').value = '';
-    }
-
-    function deleteRecord(index) {
-        records.splice(index, 1);
-        saveAndRender();
+        localStorage.setItem('orion_v4_data', JSON.stringify(records));
+        amtInput.value = '';
+        descInput.value = '';
+        render();
     }
 
     function editRecord(index) {
@@ -157,25 +150,29 @@
         document.getElementById('amount').value = r.amount;
         document.getElementById('description').value = r.desc;
         editIndex = index;
-        window.scrollTo(0,0);
+        document.getElementById('saveBtn').innerText = "GÜNCELLE";
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    function saveAndRender() {
-        localStorage.setItem('orion_finance_data', JSON.stringify(records));
-        renderRecords();
-        renderSummary();
+    function deleteRecord(index) {
+        if(confirm("Bu işlemi silmek istediğinize emin misiniz?")) {
+            records.splice(index, 1);
+            localStorage.setItem('orion_v4_data', JSON.stringify(records));
+            render();
+        }
     }
 
-    function renderRecords() {
+    function render() {
+        // Listeyi Çiz
         const list = document.getElementById('recordList');
         list.innerHTML = records.map((r, i) => `
             <div class="record-item">
                 <div class="record-info">
-                    <span class="record-cat">${r.main} - ${r.sub}</span>
-                    <span class="record-desc">${r.desc}</span>
+                    <span class="record-cat">${r.sub}</span>
+                    <span class="record-desc">${r.main}${r.desc ? ' • ' + r.desc : ''}</span>
                 </div>
                 <div class="record-actions">
-                    <span class="amount" style="color: ${r.main === 'Gelir' ? 'var(--green)' : 'var(--red)'}">
+                    <span class="amount ${r.main === 'Gelir' ? 'text-income' : 'text-expense'}">
                         ${r.main === 'Gelir' ? '+' : '-'}₺${r.amount.toLocaleString('tr-TR')}
                     </span>
                     <button class="btn-edit" onclick="editRecord(${i})">✎</button>
@@ -183,27 +180,28 @@
                 </div>
             </div>
         `).reverse().join('');
-    }
 
-    function renderSummary() {
-        let totals = { Gelir: 0, Borç: 0, Zorunlu: 0, Diğer: 0, Birikim: 0 };
-        records.forEach(r => totals[r.main] += r.amount);
+        // Özeti Hesapla
+        let gelir = 0, gider = 0;
+        records.forEach(r => {
+            if(r.main === 'Gelir') gelir += r.amount;
+            else gider += r.amount;
+        });
 
-        const toplamGider = totals.Borç + totals.Zorunlu + totals.Diğer + totals.Birikim;
-        const kalan = totals.Gelir - toplamGider;
+        const devreden = gelir - gider;
 
         document.getElementById('summaryContent').innerHTML = `
-            <div class="summary-row"><span>Toplam Gelir:</span><span class="devreden">₺${totals.Gelir.toLocaleString('tr-TR')}</span></div>
-            <div class="summary-row"><span>Toplam Gider:</span><span class="gider-text">₺${toplamGider.toLocaleString('tr-TR')}</span></div>
+            <div class="summary-row"><span>Toplam Gelir:</span><span class="text-income">₺${gelir.toLocaleString('tr-TR')}</span></div>
+            <div class="summary-row"><span>Toplam Gider:</span><span class="text-expense">₺${gider.toLocaleString('tr-TR')}</span></div>
             <div class="summary-row summary-total">
                 <span>Sonraki Aya Devreden:</span>
-                <span class="devreden">₺${kalan.toLocaleString('tr-TR')}</span>
+                <span class="${devreden >= 0 ? 'text-income' : 'text-expense'}">₺${devreden.toLocaleString('tr-TR')}</span>
             </div>
         `;
     }
 
     updateSubCats();
-    saveAndRender();
+    render();
 </script>
 
 </body>
