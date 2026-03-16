@@ -3,163 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ORION AI - Finans Takip</title>
+    <title>FinansTakip</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
-        
-        :root {
-            --bg: #020408;
-            --glass: rgba(10, 15, 30, 0.85);
-            --border: rgba(255, 255, 255, 0.1);
-            --orion-blue: #3a86ff;
-            --orion-purple: #8338ec;
-            --text: #f8f9fa;
-            --green: #06d6a0;
-            --red: #ef476f;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; 
-            min-height: 100vh; overflow-x: hidden;
-            background-image: radial-gradient(circle at 80% 10%, rgba(58,134,255,0.15), transparent),
-                             radial-gradient(circle at 10% 90%, rgba(131,56,236,0.15), transparent);
-        }
-
-        .star-man {
-            position: fixed; bottom: -20px; right: -30px; width: 220px; height: 350px;
-            background: linear-gradient(to top, var(--bg), transparent), 
-                        url('https://raw.githubusercontent.com/slymndndr522-bit/FinansTakip/main/orion-silhouette.png') no-repeat center;
-            background-size: contain; opacity: 0.25; pointer-events: none; z-index: 0; filter: drop-shadow(0 0 15px var(--orion-blue));
-        }
-
-        header { padding: 25px; background: var(--glass); backdrop-filter: blur(25px); border-bottom: 1px solid var(--border); text-align: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: 800; letter-spacing: 5px; font-size: 1.5rem; }
-        .logo span { color: var(--orion-blue); text-shadow: 0 0 15px var(--orion-blue); }
-
-        .content { padding: 20px; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-title { font-size: 0.8rem; font-weight: 800; color: var(--orion-blue); margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
-
-        label { display: block; font-size: 0.7rem; color: var(--orion-blue); margin-bottom: 8px; font-weight: 800; }
-        select, input { 
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            color: white; padding: 14px; border-radius: 15px; margin-bottom: 15px; font-family: 'Space Mono', monospace; font-size: 0.9rem;
-        }
-
-        .btn-add { 
-            width: 100%; background: linear-gradient(45deg, var(--orion-blue), var(--orion-purple)); color: white; border: none; 
-            padding: 16px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 1rem;
-            box-shadow: 0 5px 20px rgba(58,134,255,0.4); transition: 0.3s;
-        }
-
-        .record-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .record-info { display: flex; flex-direction: column; gap: 4px; }
-        .record-cat { font-weight: 800; font-size: 1rem; color: var(--text); }
-        .record-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Space Mono', monospace; }
-        
-        .record-actions { display: flex; align-items: center; gap: 15px; }
-        .amt-val { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1rem; }
-        .btn-del { color: var(--red); background: none; border: none; font-size: 1.3rem; cursor: pointer; padding: 5px; }
-
-        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 0.9rem; font-weight: 700; }
-        .summary-total { border-top: 1px solid var(--orion-blue); margin-top: 15px; padding-top: 15px; font-weight: 800; font-size: 1.1rem; }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{--bg:#0e0f13;--surface:#16181f;--surface2:#1e2029;--border:#2a2d38;--gold:#c9a84c;--green:#4caf85;--red:#e05c5c;--blue:#2ab8c4;--debt:#e05c5c;--mandatory:#e8874a;--other:#9b7fe8;--text:#e8e9ed;--muted:#6b7080;--accent:#3a7bd5}
+        html,body{height:100%}
+        body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+        header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:var(--surface)}
+        .logo{font-size:1.2rem;font-weight:700;color:var(--gold)}
+        .logo span{color:var(--text);font-weight:400}
+        .hbtns{display:flex;gap:6px;flex-wrap:wrap}
+        .period-bar{padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);border-bottom:1px solid var(--border)}
+        .plabel{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600}
+        select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:0.85rem;cursor:pointer;outline:none;-webkit-appearance:none}
+        .btn{font-size:0.78rem;font-weight:600;padding:7px 13px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+        .btn-gold{background:var(--gold);color:#0e0f13}
+        .btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+        .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+        .btn-sm{padding:5px 10px;font-size:0.72rem}
+        .btn-del{background:none;border:none;color:var(--red);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
+        .main-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto}
+        .main-tab{flex:1;min-width:70px;padding:12px 8px;font-size:0.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);text-align:center;white-space:nowrap;transition:color .2s}
+        .tab-income.on{color:var(--green);border-bottom-color:var(--green)}
+        .tab-expense.on{color:var(--red);border-bottom-color:var(--red)}
+        .tab-savings.on{color:var(--blue);border-bottom-color:var(--blue)}
+        .tab-overview.on{color:var(--gold);border-bottom-color:var(--gold)}
+        .content{padding:16px;max-width:700px;margin:0 auto}
+        .panel{display:none}
+        .panel.on{display:block}
+        .sum-row{display:grid;gap:10px;margin-bottom:16px}
+        .sum2{grid-template-columns:1fr 1fr}
+        .sum3{grid-template-columns:1fr 1fr 1fr}
+        .sc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden}
+        .sc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+        .sc-inc::before{background:var(--green)}
+        .sc-exp::before{background:var(--red)}
+        .sc-sav::before{background:var(--blue)}
+        .sc-bal::before{background:var(--gold)}
+        .sc-rate::before{background:var(--accent)}
+        .sc-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);font-weight:600;margin-bottom:6px}
+        .sc-val{font-size:1.3rem;font-weight:700;line-height:1}
+        .sc-inc .sc-val{color:var(--green)}
+        .sc-exp .sc-val{color:var(--red)}
+        .sc-sav .sc-val{color:var(--blue)}
+        .sc-bal .sc-val{color:var(--gold)}
+        .sc-rate .sc-val{color:var(--accent)}
+        .sec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;overflow:hidden}
+        .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+        .sh-income{background:rgba(76,175,133,0.07)}
+        .sh-debt{background:rgba(224,92,92,0.07)}
+        .sh-mandatory{background:rgba(232,135,74,0.07)}
+        .sh-other{background:rgba(155,127,232,0.07)}
+        .sh-savings{background:rgba(42,184,196,0.07)}
+        .sec-title{font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:7px}
+        .sh-income .sec-title{color:var(--green)}
+        .sh-debt .sec-title{color:var(--debt)}
+        .sh-mandatory .sec-title{color:var(--mandatory)}
+        .sh-other .sec-title{color:var(--other)}
+        .sh-savings .sec-title{color:var(--blue)}
+        .badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:20px}
+        .bi{background:rgba(76,175,133,0.18);color:var(--green)}
+        .bd{background:rgba(224,92,92,0.18);color:var(--debt)}
+        .bm{background:rgba(232,135,74,0.18);color:var(--mandatory)}
+        .bo{background:rgba(155,127,232,0.18);color:var(--other)}
+        .bs{background:rgba(42,184,196,0.18);color:var(--blue)}
+        .sec-right{display:flex;align-items:center;gap:8px}
+        .sec-tot{font-size:1rem;font-weight:700}
+        .sh-income .sec-tot{color:var(--green)}
+        .sh-debt .sec-tot{color:var(--debt)}
+        .sh-mandatory .sec-tot{color:var(--mandatory)}
+        .sh-other .sec-tot{color:var(--other)}
+        .sh-savings .sec-tot{color:var(--blue)}
+        .pbar{height:4px;background:var(--surface2)}
+        .pbar-f{height:100%;transition:width .5s}
+        .pf-d{background:var(--debt)}
+        .pf-m{background:var(--mandatory)}
+        .pf-o{background:var(--other)}
+        .cat-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;border-bottom:1px solid rgba(42,45,56,0.4)}
+        .cat-name{font-size:0.8rem;font-weight:600}
+        .cat-right{display:flex;align-items:center;gap:6px}
+        .cat-amt{font-size:0.82rem;font-weight:700}
+        .ca-g{color:var(--green)}
+        .ca-r{color:var(--red)}
+        .ca-b{color:var(--blue)}
+        .entry-row{display:flex;align-items:center;padding:9px 16px 9px 28px;border-bottom:1px solid rgba(42,45,56,0.3);gap:8px}
+        .entry-name{flex:1;font-size:0.78rem;color:var(--muted)}
+        .entry-amt{font-size:0.82rem;font-weight:600}
+        .ea-g{color:var(--green)}
+        .ea-r{color:var(--red)}
+        .ea-b{color:var(--blue)}
+        .empty-msg{padding:16px;text-align:center;color:var(--muted);font-size:0.78rem;font-style:italic}
+        .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+        .chart-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:14px}
+        .chart-inner{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap}
+        #myChart{flex-shrink:0}
+        .legend{display:flex;flex-direction:column;gap:9px;flex:1;min-width:150px}
+        .leg-item{display:flex;align-items:center;gap:8px;font-size:0.78rem}
+        .leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+        .leg-lbl{flex:1}
+        .leg-pct{color:var(--muted);font-size:0.7rem;min-width:32px;text-align:right}
+        .leg-val{font-weight:700;min-width:75px;text-align:right;font-size:0.8rem}
+        .mt-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+        .mt-head{font-size:0.9rem;font-weight:700;color:var(--gold);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+        .mt-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(42,45,56,0.4);font-size:0.82rem}
+        .mt-row:last-child{border-bottom:none}
+        .mt-lbl{color:var(--muted)}
+        .mt-val{font-weight:700;font-size:0.88rem}
+        .mt-section{color:var(--text);font-weight:700;font-size:0.72rem;padding-top:10px;border-bottom:none}
+        .carryover{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
+        .carry-lbl{font-size:0.6rem;text-transform:uppercase;color:var(--muted);font-weight:600}
+        .carry-val{font-size:1.15rem;font-weight:700}
+        .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:1000;align-items:flex-end;justify-content:center}
+        .overlay.on{display:flex}
+        .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto}
+        input[type=text],input[type=number],select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:8px;font-size:0.9rem;outline:none;width:100%}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;font-size:0.82rem;font-weight:600;z-index:9999;transition:transform .3s;pointer-events:none}
+        .toast.on{transform:translateX(-50%) translateY(0)}
+        #loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+        .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite}
+        @keyframes sp{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
+    <div id="loading"><div class="spin"></div><div style="color:var(--muted);font-size:0.82rem">Yukleniyor...</div></div>
+    
+    <header>
+        <div class="logo">Finans<span>Takip</span></div>
+        <div class="hbtns">
+            <button class="btn btn-ghost btn-sm" onclick="exportData()">Yedek</button>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('impFile').click()">Yukle</button>
+            <input type="file" id="impFile" accept=".json" style="display:none" onchange="importData(event)">
+            <button class="btn btn-gold btn-sm" onclick="openAdd()">+ Ekle</button>
+        </div>
+    </header>
 
-<div class="star-man"></div>
-
-<header><div class="logo">ORION <span>AI</span></div></header>
-
-<div class="content">
-    <div class="card">
-        <div class="card-title">YENİ İŞLEM KAYDI</div>
-        <label>ANA KATEGORİ</label>
-        <select id="mainCat">
-            <option value="Gelir">Gelir</option>
-            <option value="Gider">Gider</option>
-            <option value="Birikim">Birikim</option>
-        </select>
-        
-        <label>AÇIKLAMA</label>
-        <input type="text" id="desc" placeholder="Örn: Market, Maaş...">
-
-        <label>TUTAR (₺)</label>
-        <input type="number" id="amount" placeholder="0.00">
-
-        <button class="btn-add" onclick="addRecord()">KAYDET</button>
+    <div class="period-bar">
+        <span class="plabel">Donem</span>
+        <select id="selM" onchange="render()"><option value="1">Ocak</option><option value="2">Subat</option><option value="3">Mart</option><option value="4">Nisan</option><option value="5">Mayis</option><option value="6">Haziran</option><option value="7">Temmuz</option><option value="8">Agustos</option><option value="9">Eylul</option><option value="10">Ekim</option><option value="11">Kasim</option><option value="12">Aralik</option></select>
+        <select id="selY" onchange="render()"></select>
     </div>
 
-    <div class="card">
-        <div class="card-title">MALİ ÖZET</div>
-        <div id="summary"></div>
+    <div class="main-tabs">
+        <div class="main-tab tab-income on" id="tab-income" onclick="goTab('income')">Gelir</div>
+        <div class="main-tab tab-expense" id="tab-expense" onclick="goTab('expense')">Gider</div>
+        <div class="main-tab tab-savings" id="tab-savings" onclick="goTab('savings')">Birikim</div>
+        <div class="main-tab tab-overview" id="tab-overview" onclick="goTab('overview')">Ozet</div>
     </div>
 
-    <div class="card">
-        <div class="card-title">İŞLEM GEÇMİŞİ</div>
-        <div id="list"></div>
-    </div>
-</div>
+    <div class="content">
+        <div class="panel on" id="panel-income">
+            <div class="sum-row sum2"><div class="sc sc-inc"><div class="sc-lbl">Toplam Gelir</div><div class="sc-val" id="si-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net Bakiye</div><div class="sc-val" id="si-bal">0</div></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-income"><div class="sec-title">Gelirler</div><div class="sec-right"><span class="sec-tot" id="inc-tot">0</span></div></div><div id="list-income"></div></div>
+        </div>
 
-<script>
-    let data = JSON.parse(localStorage.getItem('orion_fin_v1') || '[]');
+        <div class="panel" id="panel-expense">
+            <div class="sum-row sum3"><div class="sc sc-exp"><div class="sc-lbl">Gider</div><div class="sc-val" id="se-exp">0</div></div><div class="sc sc-inc"><div class="sc-lbl">Gelir</div><div class="sc-val" id="se-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net</div><div class="sc-val" id="se-net">0</div></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-debt"><div class="sec-title">Borc</div><div class="sec-right"><span class="sec-tot" id="tot-debt">0</span></div></div><div id="list-debt"></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-mandatory"><div class="sec-title">Zorunlu</div><div class="sec-right"><span class="sec-tot" id="tot-mand">0</span></div></div><div id="list-mand"></div></div>
+            <div class="sec-card"><div class="sec-hdr sh-other"><div class="sec-title">Diger</div><div class="sec-right"><span class="sec-tot" id="tot-other">0</span></div></div><div id="list-other"></div></div>
+        </div>
 
-    function addRecord() {
-        const main = document.getElementById('mainCat').value;
-        const desc = document.getElementById('desc').value;
-        const amt = document.getElementById('amount').value;
-        
-        if(!desc || !amt) return;
+        <div class="panel" id="panel-savings">
+            <div class="sum-row sum2"><div class="sc sc-sav"><div class="sc-lbl">Birikim</div><div class="sc-val" id="ss-sav">0</div></div><div class="sc sc-rate"><div class="sc-lbl">Oran</div><div class="sc-val" id="ss-rate">%0</div></div></div>
+            <div class="sec-card"><div id="list-savings"></div></div>
+        </div>
 
-        data.push({ main, desc, amt: parseFloat(amt) });
-        localStorage.setItem('orion_fin_v1', JSON.stringify(data));
-        
-        document.getElementById('desc').value = '';
-        document.getElementById('amount').value = '';
-        render();
-    }
-
-    function deleteRecord(i) {
-        data.splice(i, 1);
-        localStorage.setItem('orion_fin_v1', JSON.stringify(data));
-        render();
-    }
-
-    function render() {
-        const list = document.getElementById('list');
-        list.innerHTML = data.map((r, i) => `
-            <div class="record-item">
-                <div class="record-info">
-                    <span class="record-cat">${r.desc}</span>
-                    <span class="record-sub">${r.main}</span>
-                </div>
-                <div class="record-actions">
-                    <span class="amt-val" style="color:${r.main==='Gelir'?'var(--green)':'var(--red)'}">
-                        ${r.main==='Gelir'?'+':'-'}₺${r.amt.toLocaleString('tr-TR')}
-                    </span>
-                    <button class="btn-del" onclick="deleteRecord(${i})">✕</button>
+        <div class="panel" id="panel-overview">
+            <div class="chart-card">
+                <div class="chart-title">Aylik Dagilim</div>
+                <div class="chart-inner">
+                    <canvas id="myChart" width="160" height="160"></canvas>
+                    <div class="legend" id="chartLegend"></div>
                 </div>
             </div>
-        `).reverse().join('');
+            <div id="ov-totals"></div>
+        </div>
+    </div>
 
-        let total = 0;
-        data.forEach(r => {
-            if(r.main === 'Gelir') total += r.amt;
-            else total -= r.amt;
-        });
+    <div class="overlay" id="addModal">
+        <div class="modal">
+            <h3 style="margin-bottom:15px">Yeni Ekle</h3>
+            <select id="mType" onchange="updCats()"><option value="income">Gelir</option><option value="debt">Borc</option><option value="mandatory">Zorunlu</option><option value="other">Diger</option><option value="savings">Birikim</option></select>
+            <br><br>
+            <select id="catSel"></select>
+            <br><br>
+            <input type="text" id="eName" placeholder="Aciklama">
+            <br><br>
+            <input type="number" id="eAmt" placeholder="Tutar" inputmode="decimal">
+            <br><br>
+            <button class="btn btn-gold" style="width:100%; justify-content:center" onclick="saveEntry()">Kaydet</button>
+            <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:10px" onclick="closeAdd()">Kapat</button>
+        </div>
+    </div>
 
-        document.getElementById('summary').innerHTML = `
-            <div class="summary-row">
-                <span>Net Durum:</span>
-                <span style="color:${total >= 0 ? 'var(--green)' : 'var(--red)'}">
-                    ₺${total.toLocaleString('tr-TR')}
-                </span>
-            </div>
-        `;
-    }
+    <div class="toast" id="toast"></div>
 
-    render();
-</script>
+    <script>
+        var DB_NAME="FT_DB", DB_VER=1, ST_NAME="data";
+        var db, DATA={}, CATS={income:["Maas","Ek Gelir","Diger"],debt:["Kredi","Kredi Karti","Diger"],mandatory:["Kira","Fatura","Market"],other:["Eglence","Ulasim","Diger"],savings:["Altin","Doviz","Borsa"]};
+        var $=function(id){return document.getElementById(id)};
+
+        function openDB(cb) {
+            var req = indexedDB.open(DB_NAME, DB_VER);
+            req.onupgradeneeded = function(e){ e.target.result.createObjectStore(ST_NAME,{keyPath:"id"}); };
+            req.onsuccess = function(e){ db = e.target.result; loadData(cb); };
+            req.onerror = function(){ alert("DB Hatasi!"); cb(); };
+        }
+
+        function loadData(cb) {
+            var tx = db.transaction(ST_NAME,"readonly").objectStore(ST_NAME).get("main");
+            tx.onsuccess = function(){ if(tx.result) DATA = tx.result.val; cb(); };
+            tx.onerror = function(){ cb(); };
+        }
+
+        function saveData() {
+            db.transaction(ST_NAME,"readwrite").objectStore(ST_NAME).put({id:"main", val:DATA});
+        }
+
+        function init() {
+            var now = new Date();
+            var yy = $("selY");
+            for(var i=now.getFullYear()-2; i<=now.getFullYear()+2; i++) {
+                var o = document.createElement("option"); o.value=i; o.text=i; if(i==now.getFullYear()) o.selected=true; yy.appendChild(o);
+            }
+            $("selM").value = now.getMonth()+1;
+            openDB(function(){
+                $("loading").style.display="none";
+                render();
+            });
+            // Zorunlu kapatma (Her ihtimale karsi 3 saniye sonra yukleme ekranini kaldir)
+            setTimeout(function(){ $("loading").style.display="none"; }, 3000);
+        }
+
+        function render() {
+            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
+            if(!DATA[k]) DATA[k] = {income:[], debt:[], mandatory:[], other:[], savings:[]};
+            var d = DATA[k];
+
+            var sInc = d.income.reduce((a,b)=>a+b.amt,0);
+            var sDebt = d.debt.reduce((a,b)=>a+b.amt,0);
+            var sMand = d.mandatory.reduce((a,b)=>a+b.amt,0);
+            var sOth = d.other.reduce((a,b)=>a+b.amt,0);
+            var sSav = d.savings.reduce((a,b)=>a+b.amt,0);
+            var sExp = sDebt+sMand+sOth;
+
+            $("si-inc").innerText = sInc.toLocaleString();
+            $("si-bal").innerText = (sInc - sExp - sSav).toLocaleString();
+            $("inc-tot").innerText = sInc.toLocaleString();
+            $("se-inc").innerText = sInc.toLocaleString();
+            $("se-exp").innerText = sExp.toLocaleString();
+            $("se-net").innerText = (sInc - sExp).toLocaleString();
+            $("tot-debt").innerText = sDebt.toLocaleString();
+            $("tot-mand").innerText = sMand.toLocaleString();
+            $("tot-other").innerText = sOth.toLocaleString();
+            $("ss-sav").innerText = sSav.toLocaleString();
+            $("ss-rate").innerText = "%" + (sInc>0 ? ((sInc-sExp)/sInc*100).toFixed(1) : 0);
+
+            list("list-income", d.income, "income");
+            list("list-debt", d.debt, "debt");
+            list("list-mand", d.mandatory, "mandatory");
+            list("list-other", d.other, "other");
+            list("list-savings", d.savings, "savings");
+            draw(sInc, sDebt, sMand, sOth, sSav);
+        }
+
+        function list(id, arr, type) {
+            var h = arr.map((item, idx) => `
+                <div class="entry-row">
+                    <span class="entry-name"><b>${item.cat}</b>: ${item.name}</span>
+                    <span class="entry-amt">${item.amt.toLocaleString()}</span>
+                    <button class="btn-del" onclick="del('${type}',${idx})">X</button>
+                </div>
+            `).join("");
+            $(id).innerHTML = h || '<div class="empty-msg">Kayit yok</div>';
+        }
+
+        function del(type, idx) {
+            if(!confirm("Silinsin mi?")) return;
+            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
+            DATA[k][type].splice(idx,1);
+            saveData(); render();
+        }
+
+        function openAdd() { updCats(); $("addModal").classList.add("on"); }
+        function closeAdd() { $("addModal").classList.remove("on"); }
+
+        function updCats() {
+            var t = $("mType").value;
+            $("catSel").innerHTML = CATS[t].map(c => `<option value="${c}">${c}</option>`).join("");
+        }
+
+        function saveEntry() {
+            var name = $("eName").value || "Adsiz";
+            var amt = parseFloat($("eAmt").value) || 0;
+            var cat = $("catSel").value;
+            var type = $("mType").value;
+            if(amt <= 0) return alert("Tutar girin");
+            
+            var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
+            DATA[k][type].push({name:name, amt:amt, cat:cat});
+            saveData(); render(); closeAdd();
+            $("eName").value=""; $("eAmt").value="";
+        }
+
+        function goTab(t) {
+            document.querySelectorAll(".main-tab").forEach(el => el.classList.remove("on"));
+            document.querySelectorAll(".panel").forEach(el => el.classList.remove("on"));
+            $("tab-"+t).classList.add("on");
+            $("panel-"+t).classList.add("on");
+        }
+
+        function draw(inc, d, m, o, s) {
+            var cvs=$("myChart"), ctx=cvs.getContext("2d");
+            ctx.clearRect(0,0,160,160);
+            var vals=[inc,d,m,o,s], colors=["#4caf85","#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Gelir","Borc","Zorunlu","Diger","Birikim"];
+            var total = vals.reduce((a,b)=>a+b,0);
+            if(total==0) return;
+            var start = -Math.PI/2;
+            $("chartLegend").innerHTML = "";
+            vals.forEach((v,i) => {
+                if(v<=0) return;
+                var slice = (v/total)*2*Math.PI;
+                ctx.fillStyle = colors[i];
+                ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,start,start+slice); ctx.fill();
+                start += slice;
+                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: ${v.toLocaleString()}</span></div>`;
+            });
+        }
+
+        function exportData() {
+            var blob = new Blob([JSON.stringify(DATA)], {type:"application/json"});
+            var a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="finans_yedek.json"; a.click();
+        }
+
+        function importData(e) {
+            var fr = new FileReader();
+            fr.onload = function(){ DATA = JSON.parse(fr.result); saveData(); render(); alert("Yuklendi"); };
+            fr.readAsText(e.target.files[0]);
+        }
+
+        window.onload = init;
+    </script>
 </body>
 </html>
