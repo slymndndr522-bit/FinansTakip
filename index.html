@@ -345,15 +345,17 @@
             }
             var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
             
-            // Burası Değişti: Önce pastanın tamamını yeşil (kalan nakit) olarak çiziyoruz.
-            ctx.fillStyle = "var(--green)"; 
-            ctx.beginPath(); 
-            ctx.moveTo(80,80); 
-            ctx.arc(80,80,75,0,Math.PI*2); 
+            // Temel: Tüm pasta dilimini YEŞİL (Gelir/Kalan Nakit) olarak boya
+            ctx.fillStyle = "var(--green)";
+            ctx.beginPath();
+            ctx.moveTo(80,80);
+            ctx.arc(80,80,75,0,Math.PI*2);
             ctx.fill();
 
             var start = -Math.PI/2;
             $("chartLegend").innerHTML = "";
+
+            // Gider dilimlerini yeşilin üzerine çiz
             vals.forEach((v,i) => {
                 if(v<=0) return;
                 var slice = (v/inc)*2*Math.PI;
@@ -363,11 +365,12 @@
                 var pct = ((v/inc)*100).toFixed(1);
                 $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: %${pct}</span></div>`;
             });
+
+            // Kalan nakit (Yeşil olan kısım) için lejant ekle
             var totalUsed = vals.reduce((a,b)=>a+b,0);
-            if(totalUsed < inc) {
-                var carryPct = (((inc - totalUsed)/inc)*100).toFixed(1);
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div><span style="color:var(--green); font-weight:700">Kalan Nakit: %${carryPct}</span></div>`;
-            }
+            var carryPct = inc > 0 ? (((inc - totalUsed)/inc)*100).toFixed(1) : 0;
+            
+            $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div><span style="color:var(--green); font-weight:700">Kalan Nakit (Gelir): %${carryPct}</span></div>`;
         }
 
         function exportData() {
