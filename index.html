@@ -39,14 +39,14 @@
         .sc-inc::before{background:var(--green)}
         .sc-exp::before{background:var(--red)}
         .sc-sav::before{background:var(--blue)}
-        .sc-bal::before{background:var(--gold)}
+        .sc-bal::before{background:var(--green)}
         .sc-rate::before{background:var(--accent)}
         .sc-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);font-weight:600;margin-bottom:6px}
         .sc-val{font-size:1.3rem;font-weight:700;line-height:1}
         .sc-inc .sc-val{color:var(--green)}
         .sc-exp .sc-val{color:var(--red)}
         .sc-sav .sc-val{color:var(--blue)}
-        .sc-bal .sc-val{color:var(--gold)}
+        .sc-bal .sc-val{color:var(--green)}
         .sc-rate .sc-val{color:var(--accent)}
         .sec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;overflow:hidden}
         .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
@@ -75,9 +75,9 @@
         .leg-item{display:flex;align-items:center;gap:8px;font-size:0.78rem}
         .leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
         .mt-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
-        .carryover{display:flex;flex-direction:column;gap:4px;padding:12px 14px;margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
-        .carry-lbl{font-size:0.6rem;text-transform:uppercase;color:var(--muted);font-weight:600;letter-spacing:1px}
-        .carry-val{font-size:1.2rem;font-weight:700;color:var(--gold)}
+        .carryover{display:flex;flex-direction:column;gap:4px;padding:12px 14px;margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--green)}
+        .carry-lbl{font-size:0.6rem;text-transform:uppercase;color:var(--green);font-weight:700;letter-spacing:1px}
+        .carry-val{font-size:1.2rem;font-weight:700;color:var(--green)}
         .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:1000;align-items:flex-end;justify-content:center}
         .overlay.on{display:flex}
         .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto}
@@ -118,7 +118,7 @@
         </div>
 
         <div class="panel" id="panel-expense">
-            <div class="sum-row sum3"><div class="sc sc-exp"><div class="sc-lbl">Gider</div><div class="sc-val" id="se-exp">0</div></div><div class="sc sc-inc"><div class="sc-lbl">Gelir</div><div class="sc-val" id="se-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net</div><div class="sc-val" id="se-net">0</div></div></div>
+            <div class="sum-row sum3"><div class="sc sc-exp"><div class="sc-lbl">Gider</div><div class="sc-val" id="se-exp">0</div></div><div class="sc sc-inc"><div class="sc-lbl">Gelir</div><div class="sc-val" id="se-inc">0</div></div><div class="sc sc-bal"><div class="sc-lbl">Net (Giderden Sonra)</div><div class="sc-val" id="se-net">0</div></div></div>
             <div class="sec-card"><div class="sec-hdr sh-debt"><div class="sec-title">Borc</div><div class="sec-right"><span class="sec-tot" id="tot-debt">0</span></div></div><div id="list-debt"></div></div>
             <div class="sec-card"><div class="sec-hdr sh-mandatory"><div class="sec-title">Zorunlu Harcama</div><div class="sec-right"><span class="sec-tot" id="tot-mand">0</span></div></div><div id="list-mand"></div></div>
             <div class="sec-card"><div class="sec-hdr sh-other"><div class="sec-title">Diger Harcamalar</div><div class="sec-right"><span class="sec-tot" id="tot-other">0</span></div></div><div id="list-other"></div></div>
@@ -135,9 +135,6 @@
                 <div class="chart-inner">
                     <canvas id="myChart" width="160" height="160"></canvas>
                     <div class="legend" id="chartLegend"></div>
-                </div>
-                <div style="font-size:0.65rem; color:var(--muted); margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
-                    * Pasta grafiğinin tamamı toplam geliri temsil eder. Boş kalan alan devreden nakit paradır.
                 </div>
             </div>
             <div id="ov-totals">
@@ -163,13 +160,13 @@
                         <span id="ov-tot-sav" style="color:var(--text); font-weight:700">0</span>
                     </div>
                     <div style="border-top:1px solid var(--border); margin:10px 0; padding-top:10px; display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem">
-                        <span style="color:var(--muted)">Toplam Gider (Harcanan):</span>
+                        <span style="color:var(--muted)">Toplam Harcama:</span>
                         <span id="ov-tot-exp" style="color:var(--red); font-weight:700">0</span>
                     </div>
                     <div class="carryover">
                         <div class="carry-lbl">Bir Sonraki Aya Devreden Tutar</div>
                         <div class="carry-val" id="ov-carry">0</div>
-                        <div id="ov-carry-pct" style="font-size:0.7rem; color:var(--muted); font-weight:600; margin-top:2px">Gelirin %0 kadarı</div>
+                        <div id="ov-carry-pct" style="font-size:0.7rem; color:var(--green); font-weight:700; margin-top:2px">Gelirin %0 kadarı</div>
                     </div>
                 </div>
             </div>
@@ -306,33 +303,15 @@
         function editEntry(type, idx) {
             var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
             var item = DATA[k][type][idx];
-            editType = type;
-            editIdx = idx;
-            $("mType").value = type;
-            updCats();
-            $("catSel").value = item.cat;
-            $("eName").value = item.name;
-            $("eAmt").value = item.amt;
-            $("modalTitle").innerText = "Düzenle";
-            $("addModal").classList.add("on");
+            editType = type; editIdx = idx;
+            $("mType").value = type; updCats();
+            $("catSel").value = item.cat; $("eName").value = item.name; $("eAmt").value = item.amt;
+            $("modalTitle").innerText = "Düzenle"; $("addModal").classList.add("on");
         }
 
-        function openAdd() { 
-            editIdx = null;
-            $("modalTitle").innerText = "Yeni Ekle";
-            updCats(); 
-            $("addModal").classList.add("on"); 
-        }
-
-        function closeAdd() { 
-            $("addModal").classList.remove("on"); 
-            $("eName").value=""; $("eAmt").value="";
-        }
-
-        function updCats() {
-            var t = $("mType").value;
-            $("catSel").innerHTML = CATS[t].map(c => `<option value="${c}">${c}</option>`).join("");
-        }
+        function openAdd() { editIdx = null; $("modalTitle").innerText = "Yeni Ekle"; updCats(); $("addModal").classList.add("on"); }
+        function closeAdd() { $("addModal").classList.remove("on"); $("eName").value=""; $("eAmt").value=""; }
+        function updCats() { var t = $("mType").value; $("catSel").innerHTML = CATS[t].map(c => `<option value="${c}">${c}</option>`).join(""); }
 
         function saveEntry() {
             var name = $("eName").value || "";
@@ -353,47 +332,34 @@
         function goTab(t) {
             document.querySelectorAll(".main-tab").forEach(el => el.classList.remove("on"));
             document.querySelectorAll(".panel").forEach(el => el.classList.remove("on"));
-            $("tab-"+t).classList.add("on");
-            $("panel-"+t).classList.add("on");
+            $("tab-"+t).classList.add("on"); $("panel-"+t).classList.add("on");
         }
 
         function draw(inc, d, m, o, s) {
             var cvs=$("myChart"), ctx=cvs.getContext("2d");
             ctx.clearRect(0,0,160,160);
-            
-            // Grafigin tamami gelirdir. Eger gelir 0 ise bos ciz.
             if(inc <= 0) {
                 ctx.strokeStyle = "#2a2d38"; ctx.lineWidth=10; ctx.beginPath(); ctx.arc(80,80,70,0,Math.PI*2); ctx.stroke();
                 $("chartLegend").innerHTML = '<div class="empty-msg">Gelir girilmediği için grafik çizilemiyor.</div>';
                 return;
             }
-
             var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
-            
-            // Arka plan (Gelirin tamami)
-            ctx.fillStyle = "#1e2029";
-            ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,0,Math.PI*2); ctx.fill();
-
+            ctx.fillStyle = "#1e2029"; ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,0,Math.PI*2); ctx.fill();
             var start = -Math.PI/2;
             $("chartLegend").innerHTML = "";
-            
             vals.forEach((v,i) => {
                 if(v<=0) return;
-                // Dilim boyutu = (Harcama / Toplam Gelir) * 360 derece
                 var slice = (v/inc)*2*Math.PI;
                 ctx.fillStyle = colors[i];
                 ctx.beginPath(); ctx.moveTo(80,80); ctx.arc(80,80,75,start,start+slice); ctx.fill();
                 start += slice;
-                
                 var pct = ((v/inc)*100).toFixed(1);
                 $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: %${pct}</span></div>`;
             });
-
-            // Eger toplam harcama gelirden azsa, kalan kismi legend'a ekle
             var totalUsed = vals.reduce((a,b)=>a+b,0);
             if(totalUsed < inc) {
                 var carryPct = (((inc - totalUsed)/inc)*100).toFixed(1);
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--gold)"></div><span>Kalan Nakit: %${carryPct}</span></div>`;
+                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div><span style="color:var(--green); font-weight:700">Kalan Nakit: %${carryPct}</span></div>`;
             }
         }
 
