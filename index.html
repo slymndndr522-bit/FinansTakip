@@ -21,7 +21,7 @@
         .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
         .btn-sm{padding:5px 10px;font-size:0.72rem}
         .btn-del{background:none;border:none;color:var(--red);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
-        .btn-edit{background:none;border:none;color:var(--gold);cursor:pointer;padding:4px 8px;font-size:0.72rem;border-radius:4px}
+        .btn-edit{background:none;border:none;color:var(--gold);cursor:padding:4px 8px;font-size:0.72rem;border-radius:4px}
         .main-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto}
         .main-tab{flex:1;min-width:70px;padding:12px 8px;font-size:0.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);text-align:center;white-space:nowrap;transition:color .2s}
         .tab-income.on{color:var(--green);border-bottom-color:var(--green)}
@@ -311,21 +311,33 @@
 
         function openAdd() { editIdx = null; $("modalTitle").innerText = "Yeni Ekle"; updCats(); $("addModal").classList.add("on"); }
         function closeAdd() { $("addModal").classList.remove("on"); $("eName").value=""; $("eAmt").value=""; }
-        function updCats() { var t = $("mType").value; $("catSel").innerHTML = CATS[t].map(c => `<option value="${c}">${c}</option>`).join(""); }
+        
+        // Bu fonksiyon Diğer Harcamalar (other) dahil tüm kategorileri doğru yükler
+        function updCats() { 
+            var t = $("mType").value; 
+            if(CATS[t]) {
+                $("catSel").innerHTML = CATS[t].map(c => `<option value="${c}">${c}</option>`).join(""); 
+            }
+        }
 
         function saveEntry() {
             var name = $("eName").value || "";
             var amt = parseFloat($("eAmt").value) || 0;
             var cat = $("catSel").value;
             var type = $("mType").value;
-            if(amt <= 0) return alert("Tutar girin");
+            
+            if(amt <= 0) return alert("Lütfen geçerli bir tutar girin.");
+            
             var k = $("selY").value + "-" + $("selM").value.padStart(2,'0');
+            if(!DATA[k]) DATA[k] = {income:[], debt:[], mandatory:[], other:[], savings:[]};
+
             if(editIdx !== null) {
                 DATA[k][editType].splice(editIdx, 1);
                 DATA[k][type].push({name:name, amt:amt, cat:cat});
             } else {
                 DATA[k][type].push({name:name, amt:amt, cat:cat});
             }
+            
             saveData(); render(); closeAdd();
         }
 
@@ -340,20 +352,20 @@
             ctx.clearRect(0,0,160,160);
             if(inc <= 0) {
                 ctx.strokeStyle = "#2a2d38"; ctx.lineWidth=10; ctx.beginPath(); ctx.arc(80,80,70,0,Math.PI*2); ctx.stroke();
-                $("chartLegend").innerHTML = '<div class="empty-msg">Gelir girilmediği için grafik çizilemiyor.</div>';
+                $("chartLegend").innerHTML = '<div class="empty-msg">Gelir yok</div>';
                 return;
             }
             var vals=[d,m,o,s], colors=["#e05c5c","#e8874a","#9b7fe8","#2ab8c4"], labels=["Borc","Zorunlu","Diger","Birikim"];
             
-            // Burası Değişti: Önce pastanın tamamını yeşil (kalan nakit) olarak çiziyoruz.
-            ctx.fillStyle = "var(--green)"; 
-            ctx.beginPath(); 
-            ctx.moveTo(80,80); 
-            ctx.arc(80,80,75,0,Math.PI*2); 
+            ctx.fillStyle = "var(--green)";
+            ctx.beginPath();
+            ctx.moveTo(80,80);
+            ctx.arc(80,80,75,0,Math.PI*2);
             ctx.fill();
 
             var start = -Math.PI/2;
             $("chartLegend").innerHTML = "";
+
             vals.forEach((v,i) => {
                 if(v<=0) return;
                 var slice = (v/inc)*2*Math.PI;
@@ -363,11 +375,10 @@
                 var pct = ((v/inc)*100).toFixed(1);
                 $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}: %${pct}</span></div>`;
             });
+
             var totalUsed = vals.reduce((a,b)=>a+b,0);
-            if(totalUsed < inc) {
-                var carryPct = (((inc - totalUsed)/inc)*100).toFixed(1);
-                $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div><span style="color:var(--green); font-weight:700">Kalan Nakit: %${carryPct}</span></div>`;
-            }
+            var carryPct = inc > 0 ? (((inc - totalUsed)/inc)*100).toFixed(1) : 0;
+            $("chartLegend").innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div><span style="color:var(--green); font-weight:700">Kalan Nakit (Gelir): %${carryPct}</span></div>`;
         }
 
         function exportData() {
